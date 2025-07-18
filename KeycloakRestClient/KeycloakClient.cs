@@ -1210,7 +1210,7 @@ namespace KeycloakRestClient
         /// Create new authenticator configuration
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
         public virtual System.Threading.Tasks.Task ConfigPOSTAsync(AuthenticatorConfigRepresentation body, string realm)
@@ -1223,7 +1223,7 @@ namespace KeycloakRestClient
         /// Create new authenticator configuration
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
         public virtual async System.Threading.Tasks.Task ConfigPOSTAsync(AuthenticatorConfigRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
@@ -1273,7 +1273,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
                         }
@@ -1679,7 +1679,7 @@ namespace KeycloakRestClient
         /// Add new authentication execution
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ExecutionsPOSTAsync(AuthenticationExecutionRepresentation body, string realm)
         {
@@ -1691,7 +1691,7 @@ namespace KeycloakRestClient
         /// Add new authentication execution
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ExecutionsPOSTAsync(AuthenticationExecutionRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -1740,7 +1740,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
                         }
@@ -1770,7 +1770,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ExecutionsGETAsync(string executionId, string realm)
+        public virtual System.Threading.Tasks.Task<AuthenticationExecutionRepresentation> ExecutionsGETAsync(string executionId, string realm)
         {
             return ExecutionsGETAsync(executionId, realm, System.Threading.CancellationToken.None);
         }
@@ -1782,7 +1782,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ExecutionsGETAsync(string executionId, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuthenticationExecutionRepresentation> ExecutionsGETAsync(string executionId, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (executionId == null)
                 throw new System.ArgumentNullException("executionId");
@@ -1797,6 +1797,7 @@ namespace KeycloakRestClient
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -1831,7 +1832,12 @@ namespace KeycloakRestClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<AuthenticationExecutionRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -1949,7 +1955,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="executionId">Execution id</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ConfigPOST2Async(string executionId, AuthenticatorConfigRepresentation body, string realm)
         {
@@ -1962,7 +1968,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="executionId">Execution id</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ConfigPOST2Async(string executionId, AuthenticatorConfigRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -2016,7 +2022,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
                         }
@@ -2427,7 +2433,7 @@ namespace KeycloakRestClient
         /// Create a new authentication flow
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task FlowsPOSTAsync(AuthenticationFlowRepresentation body, string realm)
         {
@@ -2439,7 +2445,7 @@ namespace KeycloakRestClient
         /// Create a new authentication flow
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task FlowsPOSTAsync(AuthenticationFlowRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -2488,7 +2494,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
                         }
@@ -2517,7 +2523,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">name of the existing authentication flow</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task CopyAsync(string flowAlias, System.Collections.Generic.IDictionary<string, string> body, string realm)
         {
@@ -2530,7 +2536,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">name of the existing authentication flow</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task CopyAsync(string flowAlias, System.Collections.Generic.IDictionary<string, string> body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -2584,7 +2590,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
                         }
@@ -2615,9 +2621,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ExecutionsGET2Async(string flowAlias, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AuthenticationExecutionInfoRepresentation>> ExecutionsAllAsync(string flowAlias, string realm)
         {
-            return ExecutionsGET2Async(flowAlias, realm, System.Threading.CancellationToken.None);
+            return ExecutionsAllAsync(flowAlias, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -2628,7 +2634,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ExecutionsGET2Async(string flowAlias, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AuthenticationExecutionInfoRepresentation>> ExecutionsAllAsync(string flowAlias, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (flowAlias == null)
                 throw new System.ArgumentNullException("flowAlias");
@@ -2643,6 +2649,7 @@ namespace KeycloakRestClient
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -2678,7 +2685,12 @@ namespace KeycloakRestClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<AuthenticationExecutionInfoRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -2705,7 +2717,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">Flow alias</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ExecutionsPUTAsync(string flowAlias, AuthenticationExecutionInfoRepresentation body, string realm)
         {
@@ -2718,7 +2730,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">Flow alias</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ExecutionsPUTAsync(string flowAlias, AuthenticationExecutionInfoRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -2772,7 +2784,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
                         }
@@ -2801,9 +2813,9 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">Alias of parent flow</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ExecutionAsync(string flowAlias, System.Collections.Generic.IDictionary<string, string> body, string realm)
+        public virtual System.Threading.Tasks.Task ExecutionAsync(string flowAlias, System.Collections.Generic.IDictionary<string, object> body, string realm)
         {
             return ExecutionAsync(flowAlias, body, realm, System.Threading.CancellationToken.None);
         }
@@ -2814,9 +2826,9 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">Alias of parent flow</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ExecutionAsync(string flowAlias, System.Collections.Generic.IDictionary<string, string> body, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ExecutionAsync(string flowAlias, System.Collections.Generic.IDictionary<string, object> body, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (flowAlias == null)
                 throw new System.ArgumentNullException("flowAlias");
@@ -2868,7 +2880,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
                         }
@@ -2897,9 +2909,9 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">Alias of parent authentication flow</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task FlowAsync(string flowAlias, System.Collections.Generic.IDictionary<string, string> body, string realm)
+        public virtual System.Threading.Tasks.Task FlowAsync(string flowAlias, System.Collections.Generic.IDictionary<string, object> body, string realm)
         {
             return FlowAsync(flowAlias, body, realm, System.Threading.CancellationToken.None);
         }
@@ -2910,9 +2922,9 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="flowAlias">Alias of parent authentication flow</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task FlowAsync(string flowAlias, System.Collections.Generic.IDictionary<string, string> body, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task FlowAsync(string flowAlias, System.Collections.Generic.IDictionary<string, object> body, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (flowAlias == null)
                 throw new System.ArgumentNullException("flowAlias");
@@ -2964,7 +2976,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
                         }
@@ -3089,7 +3101,7 @@ namespace KeycloakRestClient
         /// Update an authentication flow
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task FlowsPUTAsync(string id, AuthenticationFlowRepresentation body, string realm)
         {
@@ -3101,7 +3113,7 @@ namespace KeycloakRestClient
         /// Update an authentication flow
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task FlowsPUTAsync(string id, AuthenticationFlowRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -3154,7 +3166,7 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
                         }
@@ -4006,6 +4018,390 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
+        /// Get RequiredAction configuration
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<RequiredActionConfigRepresentation> ConfigGET3Async(string alias, string realm)
+        {
+            return ConfigGET3Async(alias, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get RequiredAction configuration
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<RequiredActionConfigRepresentation> ConfigGET3Async(string alias, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (alias == null)
+                throw new System.ArgumentNullException("alias");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/authentication/required-actions/{alias}/config"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/authentication/required-actions/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/config");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<RequiredActionConfigRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Update RequiredAction configuration
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>No Content</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task ConfigPUT2Async(string alias, RequiredActionConfigRepresentation body, string realm)
+        {
+            return ConfigPUT2Async(alias, body, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Update RequiredAction configuration
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>No Content</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task ConfigPUT2Async(string alias, RequiredActionConfigRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (alias == null)
+                throw new System.ArgumentNullException("alias");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("PUT");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/authentication/required-actions/{alias}/config"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/authentication/required-actions/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/config");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 204)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Delete RequiredAction configuration
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>No Content</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task ConfigDELETE2Async(string alias, string realm)
+        {
+            return ConfigDELETE2Async(alias, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Delete RequiredAction configuration
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>No Content</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task ConfigDELETE2Async(string alias, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (alias == null)
+                throw new System.ArgumentNullException("alias");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/authentication/required-actions/{alias}/config"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/authentication/required-actions/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/config");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 204)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Get RequiredAction provider configuration description
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<RequiredActionConfigInfoRepresentation> ConfigDescription2Async(string alias, string realm)
+        {
+            return ConfigDescription2Async(alias, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Get RequiredAction provider configuration description
+        /// </summary>
+        /// <param name="alias">Alias of required action</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<RequiredActionConfigInfoRepresentation> ConfigDescription2Async(string alias, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (alias == null)
+                throw new System.ArgumentNullException("alias");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/authentication/required-actions/{alias}/config-description"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/authentication/required-actions/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/config-description");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<RequiredActionConfigInfoRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Lower required action's priority
         /// </summary>
         /// <param name="alias">Alias of required action</param>
@@ -4380,16 +4776,16 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ClientPoliciesRepresentation> PoliciesGETAsync(string realm)
+        public virtual System.Threading.Tasks.Task<ClientPoliciesRepresentation> PoliciesGETAsync(bool? include_global_policies, string realm)
         {
-            return PoliciesGETAsync(realm, System.Threading.CancellationToken.None);
+            return PoliciesGETAsync(include_global_policies, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ClientPoliciesRepresentation> PoliciesGETAsync(string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ClientPoliciesRepresentation> PoliciesGETAsync(bool? include_global_policies, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -4409,6 +4805,12 @@ namespace KeycloakRestClient
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/client-policies/policies");
+                    urlBuilder_.Append('?');
+                    if (include_global_policies != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("include-global-policies")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(include_global_policies, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -9352,6 +9754,198 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// List all client types available in the current realm
+        /// </summary>
+        /// <remarks>
+        /// This endpoint returns a list of both global and realm level client types and the attributes they set
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ClientTypesRepresentation> ClientTypesGETAsync(string realm)
+        {
+            return ClientTypesGETAsync(realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// List all client types available in the current realm
+        /// </summary>
+        /// <remarks>
+        /// This endpoint returns a list of both global and realm level client types and the attributes they set
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<ClientTypesRepresentation> ClientTypesGETAsync(string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/client-types"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/client-types");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ClientTypesRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Update a client type
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows you to update a realm level client type
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>No Content</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task ClientTypesPUTAsync(ClientTypesRepresentation body, string realm)
+        {
+            return ClientTypesPUTAsync(body, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Update a client type
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows you to update a realm level client type
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>No Content</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task ClientTypesPUTAsync(ClientTypesRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("PUT");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/client-types"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/client-types");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 204)
+                        {
+                            return;
                         }
                         else
                         {
@@ -22171,9 +22765,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<RealmEventsConfigRepresentation> ConfigGET3Async(string realm)
+        public virtual System.Threading.Tasks.Task<RealmEventsConfigRepresentation> ConfigGET4Async(string realm)
         {
-            return ConfigGET3Async(realm, System.Threading.CancellationToken.None);
+            return ConfigGET4Async(realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -22183,7 +22777,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<RealmEventsConfigRepresentation> ConfigGET3Async(string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<RealmEventsConfigRepresentation> ConfigGET4Async(string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -22262,9 +22856,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ConfigPUT2Async(RealmEventsConfigRepresentation body, string realm)
+        public virtual System.Threading.Tasks.Task ConfigPUT3Async(RealmEventsConfigRepresentation body, string realm)
         {
-            return ConfigPUT2Async(body, realm, System.Threading.CancellationToken.None);
+            return ConfigPUT3Async(body, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -22274,7 +22868,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ConfigPUT2Async(RealmEventsConfigRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ConfigPUT3Async(RealmEventsConfigRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -22348,7 +22942,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GroupRepresentation> GroupByPathAsync(System.Collections.Generic.IEnumerable<PathSegment> path, string realm)
+        public virtual System.Threading.Tasks.Task<GroupRepresentation> GroupByPathAsync(string path, string realm)
         {
             return GroupByPathAsync(path, realm, System.Threading.CancellationToken.None);
         }
@@ -22357,7 +22951,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GroupRepresentation> GroupByPathAsync(System.Collections.Generic.IEnumerable<PathSegment> path, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GroupRepresentation> GroupByPathAsync(string path, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (path == null)
                 throw new System.ArgumentNullException("path");
@@ -22380,11 +22974,7 @@ namespace KeycloakRestClient
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/group-by-path/");
-                    for (var i = 0; i < path.Count(); i++)
-                    {
-                        if (i > 0) urlBuilder_.Append(',');
-                        urlBuilder_.Append(ConvertToString(path.ElementAt(i), System.Globalization.CultureInfo.InvariantCulture));
-                    }
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(path, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -23023,22 +23613,32 @@ namespace KeycloakRestClient
         /// <summary>
         /// Return a paginated list of subgroups that have a parent group corresponding to the group on the URL
         /// </summary>
+        /// <param name="briefRepresentation">Boolean which defines whether brief groups representations are returned or not (default: false)</param>
+        /// <param name="exact">Boolean which defines whether the params "search" must match exactly or not</param>
+        /// <param name="first">The position of the first result to be returned (pagination offset).</param>
+        /// <param name="max">The maximum number of results that are to be returned. Defaults to 10</param>
+        /// <param name="search">A String representing either an exact group name or a partial name</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> ChildrenAllAsync(bool? briefRepresentation, int? first, int? max, string realm, string group_id)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> ChildrenAllAsync(bool? briefRepresentation, bool? exact, int? first, int? max, string search, string realm, string group_id)
         {
-            return ChildrenAllAsync(briefRepresentation, first, max, realm, group_id, System.Threading.CancellationToken.None);
+            return ChildrenAllAsync(briefRepresentation, exact, first, max, search, realm, group_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Return a paginated list of subgroups that have a parent group corresponding to the group on the URL
         /// </summary>
+        /// <param name="briefRepresentation">Boolean which defines whether brief groups representations are returned or not (default: false)</param>
+        /// <param name="exact">Boolean which defines whether the params "search" must match exactly or not</param>
+        /// <param name="first">The position of the first result to be returned (pagination offset).</param>
+        /// <param name="max">The maximum number of results that are to be returned. Defaults to 10</param>
+        /// <param name="search">A String representing either an exact group name or a partial name</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> ChildrenAllAsync(bool? briefRepresentation, int? first, int? max, string realm, string group_id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> ChildrenAllAsync(bool? briefRepresentation, bool? exact, int? first, int? max, string search, string realm, string group_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -23068,6 +23668,10 @@ namespace KeycloakRestClient
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("briefRepresentation")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(briefRepresentation, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
+                    if (exact != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("exact")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(exact, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (first != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("first")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(first, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -23075,6 +23679,10 @@ namespace KeycloakRestClient
                     if (max != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("max")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(max, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (search != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("search")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     urlBuilder_.Length--;
 
@@ -23639,24 +24247,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Get client-level role mappings for the user, and the app
+        /// Get client-level role mappings for the user or group, and the app
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll6Async(string realm, string group_id, string client)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll6Async(string realm, string group_id, string client_id)
         {
-            return ClientsAll6Async(realm, group_id, client, System.Threading.CancellationToken.None);
+            return ClientsAll6Async(realm, group_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get client-level role mappings for the user, and the app
+        /// Get client-level role mappings for the user or group, and the app
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll6Async(string realm, string group_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll6Async(string realm, string group_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -23664,8 +24274,8 @@ namespace KeycloakRestClient
             if (group_id == null)
                 throw new System.ArgumentNullException("group_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -23678,13 +24288,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client}"
+                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/groups/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(group_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -23739,24 +24349,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Add client-level roles to the user role mapping
+        /// Add client-level roles to the user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ClientsPOST5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client)
+        public virtual System.Threading.Tasks.Task ClientsPOST5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client_id)
         {
-            return ClientsPOST5Async(body, realm, group_id, client, System.Threading.CancellationToken.None);
+            return ClientsPOST5Async(body, realm, group_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Add client-level roles to the user role mapping
+        /// Add client-level roles to the user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ClientsPOST5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ClientsPOST5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -23764,8 +24376,8 @@ namespace KeycloakRestClient
             if (group_id == null)
                 throw new System.ArgumentNullException("group_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -23781,13 +24393,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client}"
+                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/groups/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(group_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -23837,24 +24449,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Delete client-level roles from user role mapping
+        /// Delete client-level roles from user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ClientsDELETE5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client)
+        public virtual System.Threading.Tasks.Task ClientsDELETE5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client_id)
         {
-            return ClientsDELETE5Async(body, realm, group_id, client, System.Threading.CancellationToken.None);
+            return ClientsDELETE5Async(body, realm, group_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Delete client-level roles from user role mapping
+        /// Delete client-level roles from user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ClientsDELETE5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ClientsDELETE5Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string group_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -23862,8 +24476,8 @@ namespace KeycloakRestClient
             if (group_id == null)
                 throw new System.ArgumentNullException("group_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -23879,13 +24493,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client}"
+                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/groups/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(group_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -23935,24 +24549,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Get available client-level roles that can be mapped to the user
+        /// Get available client-level roles that can be mapped to the user or group
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available7Async(string realm, string group_id, string client)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available7Async(string realm, string group_id, string client_id)
         {
-            return Available7Async(realm, group_id, client, System.Threading.CancellationToken.None);
+            return Available7Async(realm, group_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get available client-level roles that can be mapped to the user
+        /// Get available client-level roles that can be mapped to the user or group
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available7Async(string realm, string group_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available7Async(string realm, string group_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -23960,8 +24576,8 @@ namespace KeycloakRestClient
             if (group_id == null)
                 throw new System.ArgumentNullException("group_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -23974,13 +24590,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client}/available"
+                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}/available"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/groups/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(group_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/available");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -24040,11 +24656,12 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite7Async(bool? briefRepresentation, string realm, string group_id, string client)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite7Async(bool? briefRepresentation, string realm, string group_id, string client_id)
         {
-            return Composite7Async(briefRepresentation, realm, group_id, client, System.Threading.CancellationToken.None);
+            return Composite7Async(briefRepresentation, realm, group_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -24053,9 +24670,10 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite7Async(bool? briefRepresentation, string realm, string group_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite7Async(bool? briefRepresentation, string realm, string group_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -24063,8 +24681,8 @@ namespace KeycloakRestClient
             if (group_id == null)
                 throw new System.ArgumentNullException("group_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -24077,13 +24695,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client}/composite"
+                    // Operation Path: "admin/realms/{realm}/groups/{group-id}/role-mappings/clients/{client-id}/composite"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/groups/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(group_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/composite");
                     urlBuilder_.Append('?');
                     if (briefRepresentation != null)
@@ -33329,24 +33947,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Get client-level role mappings for the user, and the app
+        /// Get client-level role mappings for the user or group, and the app
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll9Async(string realm, string user_id, string client)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll9Async(string realm, string user_id, string client_id)
         {
-            return ClientsAll9Async(realm, user_id, client, System.Threading.CancellationToken.None);
+            return ClientsAll9Async(realm, user_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get client-level role mappings for the user, and the app
+        /// Get client-level role mappings for the user or group, and the app
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll9Async(string realm, string user_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll9Async(string realm, string user_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -33354,8 +33974,8 @@ namespace KeycloakRestClient
             if (user_id == null)
                 throw new System.ArgumentNullException("user_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -33368,13 +33988,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client}"
+                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/users/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(user_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -33429,24 +34049,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Add client-level roles to the user role mapping
+        /// Add client-level roles to the user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ClientsPOST6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client)
+        public virtual System.Threading.Tasks.Task ClientsPOST6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client_id)
         {
-            return ClientsPOST6Async(body, realm, user_id, client, System.Threading.CancellationToken.None);
+            return ClientsPOST6Async(body, realm, user_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Add client-level roles to the user role mapping
+        /// Add client-level roles to the user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ClientsPOST6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ClientsPOST6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -33454,8 +34076,8 @@ namespace KeycloakRestClient
             if (user_id == null)
                 throw new System.ArgumentNullException("user_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -33471,13 +34093,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client}"
+                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/users/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(user_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -33527,24 +34149,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Delete client-level roles from user role mapping
+        /// Delete client-level roles from user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ClientsDELETE6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client)
+        public virtual System.Threading.Tasks.Task ClientsDELETE6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client_id)
         {
-            return ClientsDELETE6Async(body, realm, user_id, client, System.Threading.CancellationToken.None);
+            return ClientsDELETE6Async(body, realm, user_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Delete client-level roles from user role mapping
+        /// Delete client-level roles from user or group role mapping
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ClientsDELETE6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ClientsDELETE6Async(System.Collections.Generic.IEnumerable<RoleRepresentation> body, string realm, string user_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -33552,8 +34176,8 @@ namespace KeycloakRestClient
             if (user_id == null)
                 throw new System.ArgumentNullException("user_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -33569,13 +34193,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client}"
+                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/users/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(user_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -33625,24 +34249,26 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Get available client-level roles that can be mapped to the user
+        /// Get available client-level roles that can be mapped to the user or group
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available9Async(string realm, string user_id, string client)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available9Async(string realm, string user_id, string client_id)
         {
-            return Available9Async(realm, user_id, client, System.Threading.CancellationToken.None);
+            return Available9Async(realm, user_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get available client-level roles that can be mapped to the user
+        /// Get available client-level roles that can be mapped to the user or group
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available9Async(string realm, string user_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available9Async(string realm, string user_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -33650,8 +34276,8 @@ namespace KeycloakRestClient
             if (user_id == null)
                 throw new System.ArgumentNullException("user_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -33664,13 +34290,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client}/available"
+                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}/available"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/users/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(user_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/available");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -33730,11 +34356,12 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite9Async(bool? briefRepresentation, string realm, string user_id, string client)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite9Async(bool? briefRepresentation, string realm, string user_id, string client_id)
         {
-            return Composite9Async(briefRepresentation, realm, user_id, client, System.Threading.CancellationToken.None);
+            return Composite9Async(briefRepresentation, realm, user_id, client_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -33743,9 +34370,10 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
+        /// <param name="client_id">client id (not clientId!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite9Async(bool? briefRepresentation, string realm, string user_id, string client, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite9Async(bool? briefRepresentation, string realm, string user_id, string client_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -33753,8 +34381,8 @@ namespace KeycloakRestClient
             if (user_id == null)
                 throw new System.ArgumentNullException("user_id");
 
-            if (client == null)
-                throw new System.ArgumentNullException("client");
+            if (client_id == null)
+                throw new System.ArgumentNullException("client_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -33767,13 +34395,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client}/composite"
+                    // Operation Path: "admin/realms/{realm}/users/{user-id}/role-mappings/clients/{client-id}/composite"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/users/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(user_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/role-mappings/clients/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/composite");
                     urlBuilder_.Append('?');
                     if (briefRepresentation != null)
@@ -34531,6 +35159,96 @@ namespace KeycloakRestClient
             }
         }
 
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> UnmanagedAttributesAsync(string realm, string user_id)
+        {
+            return UnmanagedAttributesAsync(realm, user_id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>> UnmanagedAttributesAsync(string realm, string user_id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (user_id == null)
+                throw new System.ArgumentNullException("user_id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/users/{user-id}/unmanagedAttributes"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/users/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(user_id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/unmanagedAttributes");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -34751,8 +35469,8 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("auth_time")]
         public long Auth_time { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("session_state")]
-        public string Session_state { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("sid")]
+        public string Sid { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("at_hash")]
         public string At_hash { get; set; }
@@ -34825,13 +35543,6 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("s_hash")]
         public string S_hash { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("authTime")]
-        [System.Obsolete]
-        public int AuthTime { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("sid")]
-        public string Sid { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("trusted-certs")]
         public System.Collections.Generic.ICollection<string> TrustedCerts { get; set; }
@@ -34950,6 +35661,9 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("description")]
         public string Description { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string Type { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("rootUrl")]
         public string RootUrl { get; set; }
@@ -35201,6 +35915,9 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("index")]
         public int Index { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("priority")]
+        public int Priority { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -35518,6 +36235,9 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("policies")]
         public System.Collections.Generic.ICollection<ClientPolicyRepresentation> Policies { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("globalPolicies")]
+        public System.Collections.Generic.ICollection<ClientPolicyRepresentation> GlobalPolicies { get; set; }
+
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
         [System.Text.Json.Serialization.JsonExtensionData]
@@ -35661,6 +36381,9 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("description")]
         public string Description { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string Type { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("rootUrl")]
         public string RootUrl { get; set; }
@@ -35878,6 +36601,51 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("protocolMappers")]
         public System.Collections.Generic.ICollection<ProtocolMapperRepresentation> ProtocolMappers { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ClientTypeRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("provider")]
+        public string Provider { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("config")]
+        public System.Collections.Generic.IDictionary<string, PropertyConfig> Config { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ClientTypesRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("client-types")]
+        public System.Collections.Generic.ICollection<ClientTypeRepresentation> ClientTypes { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("global-client-types")]
+        public System.Collections.Generic.ICollection<ClientTypeRepresentation> GlobalClientTypes { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -36394,8 +37162,8 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("auth_time")]
         public long Auth_time { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("session_state")]
-        public string Session_state { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("sid")]
+        public string Sid { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("at_hash")]
         public string At_hash { get; set; }
@@ -36468,13 +37236,6 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("s_hash")]
         public string S_hash { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("authTime")]
-        [System.Obsolete]
-        public int AuthTime { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("sid")]
-        public string Sid { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -36867,12 +37628,6 @@ namespace KeycloakRestClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class MultivaluedMapStringString : System.Collections.Generic.Dictionary<string, System.Collections.ObjectModel.Collection<string>>
-    {
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     [System.Obsolete]
     public partial class OAuthClientRepresentation
     {
@@ -36885,6 +37640,9 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("description")]
         public string Description { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string Type { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("rootUrl")]
         public string RootUrl { get; set; }
@@ -37028,6 +37786,66 @@ namespace KeycloakRestClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class OrganizationDomainRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("verified")]
+        public bool Verified { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class OrganizationRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("enabled")]
+        public bool Enabled { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("description")]
+        public string Description { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("attributes")]
+        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> Attributes { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("domains")]
+        public System.Collections.Generic.ICollection<OrganizationDomainRepresentation> Domains { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("members")]
+        public System.Collections.Generic.ICollection<UserRepresentation> Members { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("identityProviders")]
+        public System.Collections.Generic.ICollection<IdentityProviderRepresentation> IdentityProviders { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class PathCacheConfig
     {
 
@@ -37085,27 +37903,6 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("static")]
         public bool Static { get; set; }
-
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
-
-        [System.Text.Json.Serialization.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class PathSegment
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("path")]
-        public string Path { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("matrixParameters")]
-        public MultivaluedMapStringString MatrixParameters { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -37369,6 +38166,27 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("scopes")]
         public System.Collections.Generic.ICollection<string> Scopes { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class PropertyConfig
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("applicable")]
+        public bool Applicable { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("value")]
+        public object Value { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -37936,6 +38754,12 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("userManagedAccessAllowed")]
         public bool UserManagedAccessAllowed { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("organizationsEnabled")]
+        public bool OrganizationsEnabled { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("organizations")]
+        public System.Collections.Generic.ICollection<OrganizationRepresentation> Organizations { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("social")]
         [System.Obsolete]
         public bool Social { get; set; }
@@ -37969,6 +38793,42 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("oAuth2DevicePollingInterval")]
         public int OAuth2DevicePollingInterval { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RequiredActionConfigInfoRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("properties")]
+        public System.Collections.Generic.ICollection<ConfigPropertyRepresentation> Properties { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RequiredActionConfigRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("config")]
+        public System.Collections.Generic.IDictionary<string, string> Config { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -38801,6 +39661,9 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("clients")]
         public System.Collections.Generic.IDictionary<string, string> Clients { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("transientUser")]
+        public bool TransientUser { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
