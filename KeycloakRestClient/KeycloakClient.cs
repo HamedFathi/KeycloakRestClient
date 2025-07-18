@@ -19488,15 +19488,16 @@ namespace KeycloakRestClient
         /// Returns a stream of users that have the specified role name.
         /// </summary>
         /// <param name="role_name">the role name.</param>
+        /// <param name="briefRepresentation">Boolean which defines whether brief representations are returned (default: false)</param>
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAllAsync(string role_name, int? first, int? max, string realm, string client_uuid)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid)
         {
-            return UsersAllAsync(role_name, first, max, realm, client_uuid, System.Threading.CancellationToken.None);
+            return UsersAllAsync(role_name, briefRepresentation, first, max, realm, client_uuid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -19504,13 +19505,14 @@ namespace KeycloakRestClient
         /// Returns a stream of users that have the specified role name.
         /// </summary>
         /// <param name="role_name">the role name.</param>
+        /// <param name="briefRepresentation">Boolean which defines whether brief representations are returned (default: false)</param>
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAllAsync(string role_name, int? first, int? max, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
             if (role_name == null)
                 throw new System.ArgumentNullException("role_name");
@@ -19541,6 +19543,10 @@ namespace KeycloakRestClient
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(role_name, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/users");
                     urlBuilder_.Append('?');
+                    if (briefRepresentation != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("briefRepresentation")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(briefRepresentation, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (first != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("first")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(first, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -24043,9 +24049,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> MembersAsync(bool? briefRepresentation, int? first, int? max, string realm, string group_id)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> MembersAllAsync(bool? briefRepresentation, int? first, int? max, string realm, string group_id)
         {
-            return MembersAsync(briefRepresentation, first, max, realm, group_id, System.Threading.CancellationToken.None);
+            return MembersAllAsync(briefRepresentation, first, max, realm, group_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -24058,7 +24064,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> MembersAsync(bool? briefRepresentation, int? first, int? max, string realm, string group_id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> MembersAllAsync(bool? briefRepresentation, int? first, int? max, string realm, string group_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -25353,13 +25359,14 @@ namespace KeycloakRestClient
         /// <param name="briefRepresentation">Boolean which defines whether brief representations are returned (default: false)</param>
         /// <param name="first">Pagination offset</param>
         /// <param name="max">Maximum results size (defaults to 100)</param>
+        /// <param name="realmOnly">Boolean which defines if only realm-level IDPs (not associated with orgs) should be returned (default: false)</param>
         /// <param name="search">Filter specific providers by name. Search can be prefix (name*), contains (*name*) or exact ("name"). Default prefixed.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> InstancesAllAsync(bool? briefRepresentation, int? first, int? max, string search, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> InstancesAllAsync(bool? briefRepresentation, int? first, int? max, bool? realmOnly, string search, string realm)
         {
-            return InstancesAllAsync(briefRepresentation, first, max, search, realm, System.Threading.CancellationToken.None);
+            return InstancesAllAsync(briefRepresentation, first, max, realmOnly, search, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -25369,11 +25376,12 @@ namespace KeycloakRestClient
         /// <param name="briefRepresentation">Boolean which defines whether brief representations are returned (default: false)</param>
         /// <param name="first">Pagination offset</param>
         /// <param name="max">Maximum results size (defaults to 100)</param>
+        /// <param name="realmOnly">Boolean which defines if only realm-level IDPs (not associated with orgs) should be returned (default: false)</param>
         /// <param name="search">Filter specific providers by name. Search can be prefix (name*), contains (*name*) or exact ("name"). Default prefixed.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> InstancesAllAsync(bool? briefRepresentation, int? first, int? max, string search, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> InstancesAllAsync(bool? briefRepresentation, int? first, int? max, bool? realmOnly, string search, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -25405,6 +25413,10 @@ namespace KeycloakRestClient
                     if (max != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("max")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(max, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (realmOnly != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("realmOnly")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(realmOnly, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (search != null)
                     {
@@ -27682,6 +27694,1817 @@ namespace KeycloakRestClient
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<GlobalRequestResult>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns a paginated list of organizations filtered according to the specified parameters
+        /// </summary>
+        /// <param name="briefRepresentation">if true, return the full representation. Otherwise, only the basic fields are returned.</param>
+        /// <param name="exact">Boolean which defines whether the param 'search' must match exactly or not</param>
+        /// <param name="first">The position of the first result to be processed (pagination offset)</param>
+        /// <param name="max">The maximum number of results to be returned - defaults to 10</param>
+        /// <param name="q">A query to search for custom attributes, in the format 'key1:value2 key2:value2'</param>
+        /// <param name="search">A String representing either an organization name or domain</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAllAsync(bool? briefRepresentation, bool? exact, int? first, int? max, string q, string search, string realm)
+        {
+            return OrganizationsAllAsync(briefRepresentation, exact, first, max, q, search, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a paginated list of organizations filtered according to the specified parameters
+        /// </summary>
+        /// <param name="briefRepresentation">if true, return the full representation. Otherwise, only the basic fields are returned.</param>
+        /// <param name="exact">Boolean which defines whether the param 'search' must match exactly or not</param>
+        /// <param name="first">The position of the first result to be processed (pagination offset)</param>
+        /// <param name="max">The maximum number of results to be returned - defaults to 10</param>
+        /// <param name="q">A query to search for custom attributes, in the format 'key1:value2 key2:value2'</param>
+        /// <param name="search">A String representing either an organization name or domain</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAllAsync(bool? briefRepresentation, bool? exact, int? first, int? max, string q, string search, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations");
+                    urlBuilder_.Append('?');
+                    if (briefRepresentation != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("briefRepresentation")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(briefRepresentation, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (exact != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("exact")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(exact, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (first != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("first")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(first, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (max != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("max")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(max, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (q != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("q")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(q, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (search != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("search")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<OrganizationRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Creates a new organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task OrganizationsPOSTAsync(OrganizationRepresentation body, string realm)
+        {
+            return OrganizationsPOSTAsync(body, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Creates a new organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task OrganizationsPOSTAsync(OrganizationRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the organizations associated with the user that has the specified id
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string id, string realm)
+        {
+            return OrganizationsAll2Async(id, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the organizations associated with the user that has the specified id
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/members/{id}/organizations"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/members/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<OrganizationRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the organization representation
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string id)
+        {
+            return OrganizationsGETAsync(realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the organization representation
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<OrganizationRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Updates the organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string id)
+        {
+            return OrganizationsPUTAsync(body, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Updates the organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("PUT");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string id)
+        {
+            return OrganizationsDELETEAsync(realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Deletes the organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns all identity providers associated with the organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string id)
+        {
+            return IdentityProvidersAllAsync(realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns all identity providers associated with the organization
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/identity-providers");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<IdentityProviderRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Adds the identity provider with the specified id to the organization
+        /// </summary>
+        /// <remarks>
+        /// Adds, or associates, an existing identity provider with the organization. If no identity provider is found, or if it is already associated with the organization, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string id)
+        {
+            return IdentityProvidersPOSTAsync(body, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Adds the identity provider with the specified id to the organization
+        /// </summary>
+        /// <remarks>
+        /// Adds, or associates, an existing identity provider with the organization. If no identity provider is found, or if it is already associated with the organization, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/identity-providers");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the identity provider associated with the organization that has the specified alias
+        /// </summary>
+        /// <remarks>
+        /// Searches for an identity provider with the given alias. If one is found and is associated with the organization, it is returned. Otherwise, an error response with status NOT_FOUND is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string id)
+        {
+            return IdentityProvidersGETAsync(alias, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the identity provider associated with the organization that has the specified alias
+        /// </summary>
+        /// <remarks>
+        /// Searches for an identity provider with the given alias. If one is found and is associated with the organization, it is returned. Otherwise, an error response with status NOT_FOUND is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (alias == null)
+                throw new System.ArgumentNullException("alias");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers/{alias}"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/identity-providers/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<IdentityProviderRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Removes the identity provider with the specified alias from the organization
+        /// </summary>
+        /// <remarks>
+        /// Breaks the association between the identity provider and the organization. The provider itself is not deleted. If no provider is found, or if it is not currently associated with the org, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string id)
+        {
+            return IdentityProvidersDELETEAsync(alias, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Removes the identity provider with the specified alias from the organization
+        /// </summary>
+        /// <remarks>
+        /// Breaks the association between the identity provider and the organization. The provider itself is not deleted. If no provider is found, or if it is not currently associated with the org, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (alias == null)
+                throw new System.ArgumentNullException("alias");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers/{alias}"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/identity-providers/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns a paginated list of organization members filtered according to the specified parameters
+        /// </summary>
+        /// <param name="exact">Boolean which defines whether the param 'search' must match exactly or not</param>
+        /// <param name="first">The position of the first result to be processed (pagination offset)</param>
+        /// <param name="max">The maximum number of results to be returned. Defaults to 10</param>
+        /// <param name="membershipType">The membership type</param>
+        /// <param name="search">A String representing either a member's username, e-mail, first name, or last name.</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string id)
+        {
+            return MembersAll2Async(exact, first, max, membershipType, search, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns a paginated list of organization members filtered according to the specified parameters
+        /// </summary>
+        /// <param name="exact">Boolean which defines whether the param 'search' must match exactly or not</param>
+        /// <param name="first">The position of the first result to be processed (pagination offset)</param>
+        /// <param name="max">The maximum number of results to be returned. Defaults to 10</param>
+        /// <param name="membershipType">The membership type</param>
+        /// <param name="search">A String representing either a member's username, e-mail, first name, or last name.</param>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members");
+                    urlBuilder_.Append('?');
+                    if (exact != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("exact")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(exact, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (first != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("first")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(first, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (max != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("max")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(max, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (membershipType != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("membershipType")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(membershipType, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (search != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("search")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<MemberRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Adds the user with the specified id as a member of the organization
+        /// </summary>
+        /// <remarks>
+        /// Adds, or associates, an existing user with the organization. If no user is found, or if it is already associated with the organization, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string id)
+        {
+            return MembersPOSTAsync(body, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Adds the user with the specified id as a member of the organization
+        /// </summary>
+        /// <remarks>
+        /// Adds, or associates, an existing user with the organization. If no user is found, or if it is already associated with the organization, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns number of members in the organization.
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<long> Count2Async(string realm, string id)
+        {
+            return Count2Async(realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns number of members in the organization.
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<long> Count2Async(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/count"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members/count");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<long>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Invites an existing user to the organization, using the specified user id
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string id)
+        {
+            return InviteExistingUserAsync(body, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Invites an existing user to the organization, using the specified user id
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var dictionary_ = System.Text.Json.JsonSerializer.Deserialize<System.Collections.Generic.Dictionary<string, string>>(json_, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/invite-existing-user"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members/invite-existing-user");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Invites an existing user or sends a registration link to a new user, based on the provided e-mail address.
+        /// </summary>
+        /// <remarks>
+        /// If the user with the given e-mail address exists, it sends an invitation link, otherwise it sends a registration link.
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string id)
+        {
+            return InviteUserAsync(body, realm, id, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Invites an existing user or sends a registration link to a new user, based on the provided e-mail address.
+        /// </summary>
+        /// <remarks>
+        /// If the user with the given e-mail address exists, it sends an invitation link, otherwise it sends a registration link.
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var dictionary_ = System.Text.Json.JsonSerializer.Deserialize<System.Collections.Generic.Dictionary<string, string>>(json_, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.FormUrlEncodedContent(dictionary_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/invite-user"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members/invite-user");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the member of the organization with the specified id
+        /// </summary>
+        /// <remarks>
+        /// Searches for auser with the given id. If one is found, and is currently a member of the organization, returns it. Otherwise,an error response with status NOT_FOUND is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string id, string realm)
+        {
+            return MembersGETAsync(id, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the member of the organization with the specified id
+        /// </summary>
+        /// <remarks>
+        /// Searches for auser with the given id. If one is found, and is currently a member of the organization, returns it. Otherwise,an error response with status NOT_FOUND is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/{id}"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<MemberRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Removes the user with the specified id from the organization
+        /// </summary>
+        /// <remarks>
+        /// Breaks the association between the user and organization. The user itself is deleted in case the membership is managed, otherwise the user is not deleted. If no user is found, or if they are not a member of the organization, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task MembersDELETEAsync(string id, string realm)
+        {
+            return MembersDELETEAsync(id, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Removes the user with the specified id from the organization
+        /// </summary>
+        /// <remarks>
+        /// Breaks the association between the user and organization. The user itself is deleted in case the membership is managed, otherwise the user is not deleted. If no user is found, or if they are not a member of the organization, an error response is returned
+        /// </remarks>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task MembersDELETEAsync(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/{id}"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Returns the organizations associated with the user that has the specified id
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string id, string realm)
+        {
+            return OrganizationsAll3Async(id, realm, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Returns the organizations associated with the user that has the specified id
+        /// </summary>
+        /// <param name="realm">realm name (not id!)</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            if (realm == null)
+                throw new System.ArgumentNullException("realm");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/{id}/organizations"
+                    urlBuilder_.Append("admin/realms/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/members/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/organizations");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<OrganizationRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -30248,14 +32071,15 @@ namespace KeycloakRestClient
         /// Returns a stream of users that have the specified role name.
         /// </summary>
         /// <param name="role_name">the role name.</param>
+        /// <param name="briefRepresentation">Boolean which defines whether brief representations are returned (default: false)</param>
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAll2Async(string role_name, int? first, int? max, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAll2Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm)
         {
-            return UsersAll2Async(role_name, first, max, realm, System.Threading.CancellationToken.None);
+            return UsersAll2Async(role_name, briefRepresentation, first, max, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -30263,12 +32087,13 @@ namespace KeycloakRestClient
         /// Returns a stream of users that have the specified role name.
         /// </summary>
         /// <param name="role_name">the role name.</param>
+        /// <param name="briefRepresentation">Boolean which defines whether brief representations are returned (default: false)</param>
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAll2Async(string role_name, int? first, int? max, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAll2Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (role_name == null)
                 throw new System.ArgumentNullException("role_name");
@@ -30294,6 +32119,10 @@ namespace KeycloakRestClient
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(role_name, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/users");
                     urlBuilder_.Append('?');
+                    if (briefRepresentation != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("briefRepresentation")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(briefRepresentation, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (first != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("first")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(first, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -31003,9 +32832,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<int> Count2Async(string email, bool? emailVerified, bool? enabled, string firstName, string lastName, string q, string search, string username, string realm)
+        public virtual System.Threading.Tasks.Task<int> Count3Async(string email, bool? emailVerified, bool? enabled, string firstName, string lastName, string q, string search, string username, string realm)
         {
-            return Count2Async(email, emailVerified, enabled, firstName, lastName, q, search, username, realm, System.Threading.CancellationToken.None);
+            return Count3Async(email, emailVerified, enabled, firstName, lastName, q, search, username, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -31024,7 +32853,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<int> Count2Async(string email, bool? emailVerified, bool? enabled, string firstName, string lastName, string q, string search, string username, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<int> Count3Async(string email, bool? emailVerified, bool? enabled, string firstName, string lastName, string q, string search, string username, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -33085,16 +34914,16 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, long>> Count3Async(string search, string realm, string user_id)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, long>> Count4Async(string search, string realm, string user_id)
         {
-            return Count3Async(search, realm, user_id, System.Threading.CancellationToken.None);
+            return Count4Async(search, realm, user_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, long>> Count3Async(string search, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, long>> Count4Async(string search, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -35637,6 +37466,9 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("error")]
         public string Error { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("details")]
+        public System.Collections.Generic.IDictionary<string, string> Details { get; set; }
+
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
         [System.Text.Json.Serialization.JsonExtensionData]
@@ -36075,6 +37907,18 @@ namespace KeycloakRestClient
             get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
             set { _additionalProperties = value; }
         }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum BruteForceStrategy
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"LINEAR")]
+        LINEAR = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MULTIPLE")]
+        MULTIPLE = 1,
 
     }
 
@@ -36622,6 +38466,9 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("provider")]
         public string Provider { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("parent")]
+        public string Parent { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("config")]
         public System.Collections.Generic.IDictionary<string, PropertyConfig> Config { get; set; }
@@ -37346,11 +39193,17 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("linkOnly")]
         public bool LinkOnly { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("hideOnLogin")]
+        public bool HideOnLogin { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("firstBrokerLoginFlowAlias")]
         public string FirstBrokerLoginFlowAlias { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postBrokerLoginFlowAlias")]
         public string PostBrokerLoginFlowAlias { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("organizationId")]
+        public string OrganizationId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("config")]
         public System.Collections.Generic.IDictionary<string, string> Config { get; set; }
@@ -37591,6 +39444,120 @@ namespace KeycloakRestClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MemberRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("username")]
+        public string Username { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastName")]
+        public string LastName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("email")]
+        public string Email { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("emailVerified")]
+        public bool EmailVerified { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("attributes")]
+        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> Attributes { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userProfileMetadata")]
+        public UserProfileMetadata UserProfileMetadata { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("self")]
+        public string Self { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("origin")]
+        public string Origin { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("createdTimestamp")]
+        public long CreatedTimestamp { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("enabled")]
+        public bool Enabled { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("totp")]
+        public bool Totp { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("federationLink")]
+        public string FederationLink { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("serviceAccountClientId")]
+        public string ServiceAccountClientId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("credentials")]
+        public System.Collections.Generic.ICollection<CredentialRepresentation> Credentials { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("disableableCredentialTypes")]
+        public System.Collections.Generic.ICollection<string> DisableableCredentialTypes { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("requiredActions")]
+        public System.Collections.Generic.ICollection<string> RequiredActions { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("federatedIdentities")]
+        public System.Collections.Generic.ICollection<FederatedIdentityRepresentation> FederatedIdentities { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("realmRoles")]
+        public System.Collections.Generic.ICollection<string> RealmRoles { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("clientRoles")]
+        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> ClientRoles { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("clientConsents")]
+        public System.Collections.Generic.ICollection<UserConsentRepresentation> ClientConsents { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("notBefore")]
+        public int NotBefore { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("applicationRoles")]
+        [System.Obsolete]
+        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> ApplicationRoles { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("socialLinks")]
+        [System.Obsolete]
+        public System.Collections.Generic.ICollection<SocialLinkRepresentation> SocialLinks { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groups")]
+        public System.Collections.Generic.ICollection<string> Groups { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("access")]
+        public System.Collections.Generic.IDictionary<string, bool> Access { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("membershipType")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public MembershipType MembershipType { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MembershipType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"UNMANAGED")]
+        UNMANAGED = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MANAGED")]
+        MANAGED = 1,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class MethodConfig
     {
 
@@ -37816,11 +39783,17 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("alias")]
+        public string Alias { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("description")]
         public string Description { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("redirectUrl")]
+        public string RedirectUrl { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("attributes")]
         public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> Attributes { get; set; }
@@ -37829,7 +39802,7 @@ namespace KeycloakRestClient
         public System.Collections.Generic.ICollection<OrganizationDomainRepresentation> Domains { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("members")]
-        public System.Collections.Generic.ICollection<UserRepresentation> Members { get; set; }
+        public System.Collections.Generic.ICollection<MemberRepresentation> Members { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("identityProviders")]
         public System.Collections.Generic.ICollection<IdentityProviderRepresentation> IdentityProviders { get; set; }
@@ -38471,6 +40444,10 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("maxTemporaryLockouts")]
         public int MaxTemporaryLockouts { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("bruteForceStrategy")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public BruteForceStrategy BruteForceStrategy { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("maxFailureWaitSeconds")]
         public int MaxFailureWaitSeconds { get; set; }
@@ -39664,6 +41641,48 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("transientUser")]
         public bool TransientUser { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Body
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Body2
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("email")]
+        public string Email { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastName")]
+        public string LastName { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
