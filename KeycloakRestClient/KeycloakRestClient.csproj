@@ -7,7 +7,7 @@
     <Authors>Hamed Fathi</Authors>
     <Company />
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <Version>26.0.8</Version>
+    <Version>26.1.5</Version>
     <Description>A C# client library for Keycloak Admin REST API, auto-generated from official Keycloak OpenAPI specifications using NSwag.</Description>
     <LangVersion>latest</LangVersion>
     <PackageProjectUrl>https://github.com/HamedFathi/KeycloakRestClient</PackageProjectUrl>

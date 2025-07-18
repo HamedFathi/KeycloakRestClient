@@ -23035,7 +23035,7 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Get group hierarchy.  Only name and ids are returned.
+        /// Get group hierarchy.  Only `name` and `id` are returned.  `subGroups` are only returned when using the `search` or `q` parameter. If none of these parameters is provided, the top-level groups are returned without `subGroups` being filled.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
@@ -23047,7 +23047,7 @@ namespace KeycloakRestClient
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get group hierarchy.  Only name and ids are returned.
+        /// Get group hierarchy.  Only `name` and `id` are returned.  `subGroups` are only returned when using the `search` or `q` parameter. If none of these parameters is provided, the top-level groups are returned without `subGroups` being filled.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
@@ -27944,9 +27944,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string id, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string member_id, string realm)
         {
-            return OrganizationsAll2Async(id, realm, System.Threading.CancellationToken.None);
+            return OrganizationsAll2Async(member_id, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -27956,10 +27956,10 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string member_id, string realm, System.Threading.CancellationToken cancellationToken)
         {
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (member_id == null)
+                throw new System.ArgumentNullException("member_id");
 
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -27975,11 +27975,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/members/{id}/organizations"
+                    // Operation Path: "admin/realms/{realm}/organizations/members/{member-id}/organizations"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/members/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(member_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -28040,9 +28040,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string id)
+        public virtual System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string org_id)
         {
-            return OrganizationsGETAsync(realm, id, System.Threading.CancellationToken.None);
+            return OrganizationsGETAsync(realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28052,13 +28052,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28071,11 +28071,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -28135,9 +28135,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string id)
+        public virtual System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string org_id)
         {
-            return OrganizationsPUTAsync(body, realm, id, System.Threading.CancellationToken.None);
+            return OrganizationsPUTAsync(body, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28147,13 +28147,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28169,11 +28169,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -28228,9 +28228,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string id)
+        public virtual System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string org_id)
         {
-            return OrganizationsDELETEAsync(realm, id, System.Threading.CancellationToken.None);
+            return OrganizationsDELETEAsync(realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28240,13 +28240,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28258,11 +28258,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -28317,9 +28317,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string id)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string org_id)
         {
-            return IdentityProvidersAllAsync(realm, id, System.Threading.CancellationToken.None);
+            return IdentityProvidersAllAsync(realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28329,13 +28329,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28348,11 +28348,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/identity-providers"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/identity-providers");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -28416,9 +28416,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string id)
+        public virtual System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string org_id)
         {
-            return IdentityProvidersPOSTAsync(body, realm, id, System.Threading.CancellationToken.None);
+            return IdentityProvidersPOSTAsync(body, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28431,13 +28431,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28453,11 +28453,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/identity-providers"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/identity-providers");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -28516,9 +28516,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string id)
+        public virtual System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string org_id)
         {
-            return IdentityProvidersGETAsync(alias, realm, id, System.Threading.CancellationToken.None);
+            return IdentityProvidersGETAsync(alias, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28531,7 +28531,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (alias == null)
                 throw new System.ArgumentNullException("alias");
@@ -28539,8 +28539,8 @@ namespace KeycloakRestClient
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28553,11 +28553,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers/{alias}"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/identity-providers/{alias}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/identity-providers/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
 
@@ -28622,9 +28622,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string id)
+        public virtual System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string org_id)
         {
-            return IdentityProvidersDELETEAsync(alias, realm, id, System.Threading.CancellationToken.None);
+            return IdentityProvidersDELETEAsync(alias, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28637,7 +28637,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (alias == null)
                 throw new System.ArgumentNullException("alias");
@@ -28645,8 +28645,8 @@ namespace KeycloakRestClient
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28658,11 +28658,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/identity-providers/{alias}"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/identity-providers/{alias}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/identity-providers/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(alias, System.Globalization.CultureInfo.InvariantCulture)));
 
@@ -28724,9 +28724,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string id)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string org_id)
         {
-            return MembersAll2Async(exact, first, max, membershipType, search, realm, id, System.Threading.CancellationToken.None);
+            return MembersAll2Async(exact, first, max, membershipType, search, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28741,13 +28741,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28760,11 +28760,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members");
                     urlBuilder_.Append('?');
                     if (exact != null)
@@ -28850,9 +28850,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string id)
+        public virtual System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string org_id)
         {
-            return MembersPOSTAsync(body, realm, id, System.Threading.CancellationToken.None);
+            return MembersPOSTAsync(body, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28865,13 +28865,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28887,11 +28887,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -28947,9 +28947,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<long> Count2Async(string realm, string id)
+        public virtual System.Threading.Tasks.Task<long> Count2Async(string realm, string org_id)
         {
-            return Count2Async(realm, id, System.Threading.CancellationToken.None);
+            return Count2Async(realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -28959,13 +28959,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<long> Count2Async(string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<long> Count2Async(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28978,11 +28978,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/count"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members/count"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members/count");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -29043,9 +29043,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string id)
+        public virtual System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string org_id)
         {
-            return InviteExistingUserAsync(body, realm, id, System.Threading.CancellationToken.None);
+            return InviteExistingUserAsync(body, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -29055,13 +29055,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -29078,11 +29078,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/invite-existing-user"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members/invite-existing-user"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members/invite-existing-user");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -29141,9 +29141,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string id)
+        public virtual System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string org_id)
         {
-            return InviteUserAsync(body, realm, id, System.Threading.CancellationToken.None);
+            return InviteUserAsync(body, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -29156,13 +29156,13 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
 
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -29179,11 +29179,11 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/invite-user"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members/invite-user"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members/invite-user");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -29242,9 +29242,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string id, string realm)
+        public virtual System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string member_id, string realm, string org_id)
         {
-            return MembersGETAsync(id, realm, System.Threading.CancellationToken.None);
+            return MembersGETAsync(member_id, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -29257,13 +29257,16 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string member_id, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (member_id == null)
+                throw new System.ArgumentNullException("member_id");
 
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
+
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -29276,13 +29279,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/{id}"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members/{member-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(member_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -29345,9 +29348,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task MembersDELETEAsync(string id, string realm)
+        public virtual System.Threading.Tasks.Task MembersDELETEAsync(string member_id, string realm, string org_id)
         {
-            return MembersDELETEAsync(id, realm, System.Threading.CancellationToken.None);
+            return MembersDELETEAsync(member_id, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -29360,13 +29363,16 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task MembersDELETEAsync(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task MembersDELETEAsync(string member_id, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (member_id == null)
+                throw new System.ArgumentNullException("member_id");
 
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
+
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -29378,13 +29384,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/{id}"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members/{member-id}"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(member_id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -29439,9 +29445,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string id, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string member_id, string realm, string org_id)
         {
-            return OrganizationsAll3Async(id, realm, System.Threading.CancellationToken.None);
+            return OrganizationsAll3Async(member_id, realm, org_id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -29451,13 +29457,16 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string id, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string member_id, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
-            if (id == null)
-                throw new System.ArgumentNullException("id");
+            if (member_id == null)
+                throw new System.ArgumentNullException("member_id");
 
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
+
+            if (org_id == null)
+                throw new System.ArgumentNullException("org_id");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -29470,13 +29479,13 @@ namespace KeycloakRestClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "admin/realms/{realm}/organizations/{id}/members/{id}/organizations"
+                    // Operation Path: "admin/realms/{realm}/organizations/{org-id}/members/{member-id}/organizations"
                     urlBuilder_.Append("admin/realms/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(realm, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(org_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/members/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(member_id, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/organizations");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -37223,6 +37232,9 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("owner")]
         public string Owner { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("resourceType")]
+        public string ResourceType { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("resourcesData")]
         public System.Collections.Generic.ICollection<ResourceRepresentation> ResourcesData { get; set; }
 
@@ -37898,6 +37910,24 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("permissions")]
         public System.Collections.Generic.ICollection<Permission> Permissions { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AuthorizationSchema
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("resourceTypes")]
+        public System.Collections.Generic.IDictionary<string, ResourceType> ResourceTypes { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -40103,6 +40133,9 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("owner")]
         public string Owner { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("resourceType")]
+        public string ResourceType { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("resourcesData")]
         public System.Collections.Generic.ICollection<ResourceRepresentation> ResourcesData { get; set; }
 
@@ -40496,6 +40529,9 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("defaultRole")]
         public RoleRepresentation DefaultRole { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("adminPermissionsClient")]
+        public ClientRepresentation AdminPermissionsClient { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("defaultGroups")]
         public System.Collections.Generic.ICollection<string> DefaultGroups { get; set; }
 
@@ -40737,6 +40773,12 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("organizations")]
         public System.Collections.Generic.ICollection<OrganizationRepresentation> Organizations { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("verifiableCredentialsEnabled")]
+        public bool VerifiableCredentialsEnabled { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("adminPermissionsEnabled")]
+        public bool AdminPermissionsEnabled { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("social")]
         [System.Obsolete]
         public bool Social { get; set; }
@@ -40959,6 +41001,30 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("decisionStrategy")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public DecisionStrategy DecisionStrategy { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("authorizationSchema")]
+        public AuthorizationSchema AuthorizationSchema { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ResourceType
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("scopes")]
+        public System.Collections.Generic.ICollection<string> Scopes { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
