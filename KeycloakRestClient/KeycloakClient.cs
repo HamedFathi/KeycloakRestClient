@@ -143,6 +143,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -228,6 +234,30 @@ namespace KeycloakRestClient
                         if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -320,6 +350,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -346,7 +382,7 @@ namespace KeycloakRestClient
         /// This will only update top-level attributes of the realm.
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RealmsPUTAsync(RealmRepresentation body, string realm)
         {
@@ -361,7 +397,7 @@ namespace KeycloakRestClient
         /// This will only update top-level attributes of the realm.
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RealmsPUTAsync(RealmRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -409,9 +445,39 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -498,6 +564,24 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -521,13 +605,16 @@ namespace KeycloakRestClient
         /// Get admin events Returns all admin events, or filters events based on URL query parameters listed here
         /// </summary>
         /// <param name="authUser">user id</param>
+        /// <param name="dateFrom">From (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="dateTo">To (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="direction">The direction to sort events by (asc or desc)</param>
         /// <param name="max">Maximum results size (defaults to 100)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AdminEventRepresentation>> AdminEventsAllAsync(string authClient, string authIpAddress, string authRealm, string authUser, string dateFrom, string dateTo, int? first, int? max, System.Collections.Generic.IEnumerable<string> operationTypes, string resourcePath, System.Collections.Generic.IEnumerable<string> resourceTypes, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AdminEventRepresentation>> AdminEventsAllAsync(string authClient, string authIpAddress, string authRealm, string authUser, string dateFrom, string dateTo, string direction, int? first, int? max, System.Collections.Generic.IEnumerable<string> operationTypes, string resourcePath, System.Collections.Generic.IEnumerable<string> resourceTypes, string realm)
         {
-            return AdminEventsAllAsync(authClient, authIpAddress, authRealm, authUser, dateFrom, dateTo, first, max, operationTypes, resourcePath, resourceTypes, realm, System.Threading.CancellationToken.None);
+            return AdminEventsAllAsync(authClient, authIpAddress, authRealm, authUser, dateFrom, dateTo, direction, first, max, operationTypes, resourcePath, resourceTypes, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -535,11 +622,14 @@ namespace KeycloakRestClient
         /// Get admin events Returns all admin events, or filters events based on URL query parameters listed here
         /// </summary>
         /// <param name="authUser">user id</param>
+        /// <param name="dateFrom">From (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="dateTo">To (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="direction">The direction to sort events by (asc or desc)</param>
         /// <param name="max">Maximum results size (defaults to 100)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AdminEventRepresentation>> AdminEventsAllAsync(string authClient, string authIpAddress, string authRealm, string authUser, string dateFrom, string dateTo, int? first, int? max, System.Collections.Generic.IEnumerable<string> operationTypes, string resourcePath, System.Collections.Generic.IEnumerable<string> resourceTypes, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AdminEventRepresentation>> AdminEventsAllAsync(string authClient, string authIpAddress, string authRealm, string authUser, string dateFrom, string dateTo, string direction, int? first, int? max, System.Collections.Generic.IEnumerable<string> operationTypes, string resourcePath, System.Collections.Generic.IEnumerable<string> resourceTypes, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -583,6 +673,10 @@ namespace KeycloakRestClient
                     if (dateTo != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("dateTo")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(dateTo, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (direction != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("direction")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(direction, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (first != null)
                     {
@@ -649,6 +743,18 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -734,6 +840,12 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -4754,6 +4866,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -5216,7 +5340,6 @@ namespace KeycloakRestClient
         /// Get client scopes belonging to the realm Returns a list of client scopes belonging to the realm
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ClientScopeRepresentation>> ClientScopesAllAsync(string realm)
         {
@@ -5228,7 +5351,6 @@ namespace KeycloakRestClient
         /// Get client scopes belonging to the realm Returns a list of client scopes belonging to the realm
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ClientScopeRepresentation>> ClientScopesAllAsync(string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -5284,6 +5406,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -5307,7 +5435,7 @@ namespace KeycloakRestClient
         /// Create a new client scope Client Scope’s name must be unique!
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ClientScopesPOSTAsync(ClientScopeRepresentation body, string realm)
         {
@@ -5319,7 +5447,7 @@ namespace KeycloakRestClient
         /// Create a new client scope Client Scope’s name must be unique!
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ClientScopesPOSTAsync(ClientScopeRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -5368,9 +5496,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -5396,7 +5536,6 @@ namespace KeycloakRestClient
         /// Get representation of the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ClientScopeRepresentation> ClientScopesGETAsync(string realm, string client_scope_id)
         {
@@ -5408,7 +5547,6 @@ namespace KeycloakRestClient
         /// Get representation of the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ClientScopeRepresentation> ClientScopesGETAsync(string realm, string client_scope_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -5468,6 +5606,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -5491,7 +5635,7 @@ namespace KeycloakRestClient
         /// Update the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ClientScopesPUTAsync(ClientScopeRepresentation body, string realm, string client_scope_id)
         {
@@ -5503,7 +5647,7 @@ namespace KeycloakRestClient
         /// Update the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ClientScopesPUTAsync(ClientScopeRepresentation body, string realm, string client_scope_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -5556,9 +5700,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -5584,7 +5746,7 @@ namespace KeycloakRestClient
         /// Delete the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ClientScopesDELETEAsync(string realm, string client_scope_id)
         {
@@ -5596,7 +5758,7 @@ namespace KeycloakRestClient
         /// Delete the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ClientScopesDELETEAsync(string realm, string client_scope_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -5645,9 +5807,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -7523,6 +7703,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -7546,7 +7732,6 @@ namespace KeycloakRestClient
         /// Get client scopes belonging to the realm Returns a list of client scopes belonging to the realm
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ClientScopeRepresentation>> ClientTemplatesAllAsync(string realm)
         {
@@ -7558,7 +7743,6 @@ namespace KeycloakRestClient
         /// Get client scopes belonging to the realm Returns a list of client scopes belonging to the realm
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ClientScopeRepresentation>> ClientTemplatesAllAsync(string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -7614,6 +7798,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -7637,7 +7827,7 @@ namespace KeycloakRestClient
         /// Create a new client scope Client Scope’s name must be unique!
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ClientTemplatesPOSTAsync(ClientScopeRepresentation body, string realm)
         {
@@ -7649,7 +7839,7 @@ namespace KeycloakRestClient
         /// Create a new client scope Client Scope’s name must be unique!
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ClientTemplatesPOSTAsync(ClientScopeRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -7698,9 +7888,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -7726,7 +7928,6 @@ namespace KeycloakRestClient
         /// Get representation of the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ClientScopeRepresentation> ClientTemplatesGETAsync(string realm, string client_scope_id)
         {
@@ -7738,7 +7939,6 @@ namespace KeycloakRestClient
         /// Get representation of the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ClientScopeRepresentation> ClientTemplatesGETAsync(string realm, string client_scope_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -7798,6 +7998,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -7821,7 +8027,7 @@ namespace KeycloakRestClient
         /// Update the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ClientTemplatesPUTAsync(ClientScopeRepresentation body, string realm, string client_scope_id)
         {
@@ -7833,7 +8039,7 @@ namespace KeycloakRestClient
         /// Update the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ClientTemplatesPUTAsync(ClientScopeRepresentation body, string realm, string client_scope_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -7886,9 +8092,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -7914,7 +8138,7 @@ namespace KeycloakRestClient
         /// Delete the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ClientTemplatesDELETEAsync(string realm, string client_scope_id)
         {
@@ -7926,7 +8150,7 @@ namespace KeycloakRestClient
         /// Delete the client scope
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ClientTemplatesDELETEAsync(string realm, string client_scope_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -7975,9 +8199,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -11011,9 +11253,9 @@ namespace KeycloakRestClient
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PermissionAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string scope, string type, string realm, string client_uuid)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PermissionAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string resourceType, string scope, string type, string realm, string client_uuid)
         {
-            return PermissionAllAsync(fields, first, max, name, owner, permission, policyId, resource, scope, type, realm, client_uuid, System.Threading.CancellationToken.None);
+            return PermissionAllAsync(fields, first, max, name, owner, permission, policyId, resource, resourceType, scope, type, realm, client_uuid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -11021,7 +11263,7 @@ namespace KeycloakRestClient
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PermissionAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string scope, string type, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PermissionAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string resourceType, string scope, string type, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -11078,6 +11320,10 @@ namespace KeycloakRestClient
                     if (resource != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("resource")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(resource, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (resourceType != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("resourceType")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(resourceType, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (scope != null)
                     {
@@ -11549,9 +11795,9 @@ namespace KeycloakRestClient
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PolicyAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string scope, string type, string realm, string client_uuid)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PolicyAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string resourceType, string scope, string type, string realm, string client_uuid)
         {
-            return PolicyAllAsync(fields, first, max, name, owner, permission, policyId, resource, scope, type, realm, client_uuid, System.Threading.CancellationToken.None);
+            return PolicyAllAsync(fields, first, max, name, owner, permission, policyId, resource, resourceType, scope, type, realm, client_uuid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -11559,7 +11805,7 @@ namespace KeycloakRestClient
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PolicyAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string scope, string type, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AbstractPolicyRepresentation>> PolicyAllAsync(string fields, int? first, int? max, string name, string owner, bool? permission, string policyId, string resource, string resourceType, string scope, string type, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -11616,6 +11862,10 @@ namespace KeycloakRestClient
                     if (resource != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("resource")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(resource, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (resourceType != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("resourceType")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(resourceType, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (scope != null)
                     {
@@ -15585,11 +15835,10 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AccessToken> GenerateExampleAccessTokenAsync(string scope, string userId, string realm, string client_uuid)
+        public virtual System.Threading.Tasks.Task<AccessToken> GenerateExampleAccessTokenAsync(string audience, string scope, string userId, string realm, string client_uuid)
         {
-            return GenerateExampleAccessTokenAsync(scope, userId, realm, client_uuid, System.Threading.CancellationToken.None);
+            return GenerateExampleAccessTokenAsync(audience, scope, userId, realm, client_uuid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -15598,9 +15847,8 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AccessToken> GenerateExampleAccessTokenAsync(string scope, string userId, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AccessToken> GenerateExampleAccessTokenAsync(string audience, string scope, string userId, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -15626,6 +15874,10 @@ namespace KeycloakRestClient
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_uuid, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/evaluate-scopes/generate-example-access-token");
                     urlBuilder_.Append('?');
+                    if (audience != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("audience")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(audience, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (scope != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("scope")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(scope, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -15669,6 +15921,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -15693,11 +15957,10 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<IDToken> GenerateExampleIdTokenAsync(string scope, string userId, string realm, string client_uuid)
+        public virtual System.Threading.Tasks.Task<IDToken> GenerateExampleIdTokenAsync(string audience, string scope, string userId, string realm, string client_uuid)
         {
-            return GenerateExampleIdTokenAsync(scope, userId, realm, client_uuid, System.Threading.CancellationToken.None);
+            return GenerateExampleIdTokenAsync(audience, scope, userId, realm, client_uuid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -15706,9 +15969,8 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<IDToken> GenerateExampleIdTokenAsync(string scope, string userId, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<IDToken> GenerateExampleIdTokenAsync(string audience, string scope, string userId, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -15734,6 +15996,10 @@ namespace KeycloakRestClient
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(client_uuid, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/evaluate-scopes/generate-example-id-token");
                     urlBuilder_.Append('?');
+                    if (audience != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("audience")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(audience, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (scope != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("scope")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(scope, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -15777,6 +16043,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -15801,9 +16079,8 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, object>> GenerateExampleUserinfoAsync(string scope, string userId, string realm, string client_uuid)
+        public virtual System.Threading.Tasks.Task<object> GenerateExampleUserinfoAsync(string scope, string userId, string realm, string client_uuid)
         {
             return GenerateExampleUserinfoAsync(scope, userId, realm, client_uuid, System.Threading.CancellationToken.None);
         }
@@ -15814,9 +16091,8 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IDictionary<string, object>> GenerateExampleUserinfoAsync(string scope, string userId, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<object> GenerateExampleUserinfoAsync(string scope, string userId, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -15877,12 +16153,18 @@ namespace KeycloakRestClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IDictionary<string, object>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -15912,7 +16194,6 @@ namespace KeycloakRestClient
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ProtocolMapperEvaluationRepresentation>> ProtocolMappersAsync(string scope, string realm, string client_uuid)
         {
@@ -15928,7 +16209,6 @@ namespace KeycloakRestClient
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ProtocolMapperEvaluationRepresentation>> ProtocolMappersAsync(string scope, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -15995,6 +16275,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -16023,7 +16309,6 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <param name="roleContainerId">either realm name OR client UUID</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> GrantedAsync(string realm, string client_uuid, string roleContainerId, string scope)
         {
@@ -16040,7 +16325,6 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <param name="roleContainerId">either realm name OR client UUID</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> GrantedAsync(string realm, string client_uuid, string roleContainerId, string scope, System.Threading.CancellationToken cancellationToken)
         {
@@ -16112,6 +16396,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -16140,7 +16430,6 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <param name="roleContainerId">either realm name OR client UUID</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> NotGrantedAsync(string realm, string client_uuid, string roleContainerId, string scope)
         {
@@ -16157,7 +16446,6 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
         /// <param name="roleContainerId">either realm name OR client UUID</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> NotGrantedAsync(string realm, string client_uuid, string roleContainerId, string scope, System.Threading.CancellationToken cancellationToken)
         {
@@ -16227,6 +16515,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -18118,7 +18412,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RolesAllAsync(bool? briefRepresentation, int? first, int? max, string search, string realm, string client_uuid)
         {
@@ -18131,7 +18424,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RolesAllAsync(bool? briefRepresentation, int? first, int? max, string search, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -18210,6 +18502,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -18234,7 +18532,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RolesPOSTAsync(RoleRepresentation body, string realm, string client_uuid)
         {
@@ -18247,7 +18545,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RolesPOSTAsync(RoleRepresentation body, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -18301,9 +18599,33 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -18331,7 +18653,6 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<RoleRepresentation> RolesGETAsync(string role_name, string realm, string client_uuid)
         {
@@ -18345,7 +18666,6 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<RoleRepresentation> RolesGETAsync(string role_name, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -18410,6 +18730,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -18435,7 +18767,7 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RolesPUTAsync(string role_name, RoleRepresentation body, string realm, string client_uuid)
         {
@@ -18449,7 +18781,7 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RolesPUTAsync(string role_name, RoleRepresentation body, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -18507,9 +18839,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -18610,6 +18960,24 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -18635,7 +19003,6 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> CompositesAllAsync(string role_name, string realm, string client_uuid)
         {
@@ -18649,7 +19016,6 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> CompositesAllAsync(string role_name, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -18713,6 +19079,18 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -18818,6 +19196,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -18921,6 +19311,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -18945,7 +19347,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll4Async(string client_uuid, string role_name, string realm)
         {
@@ -18958,7 +19359,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll4Async(string client_uuid, string role_name, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -19025,6 +19425,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -19050,7 +19462,6 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll3Async(string role_name, string realm, string client_uuid)
         {
@@ -19064,7 +19475,6 @@ namespace KeycloakRestClient
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll3Async(string role_name, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -19130,6 +19540,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -19158,9 +19580,8 @@ namespace KeycloakRestClient
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> GroupsAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> GroupsAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid)
         {
             return GroupsAllAsync(role_name, briefRepresentation, first, max, realm, client_uuid, System.Threading.CancellationToken.None);
         }
@@ -19175,9 +19596,8 @@ namespace KeycloakRestClient
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> GroupsAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> GroupsAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
             if (role_name == null)
                 throw new System.ArgumentNullException("role_name");
@@ -19247,12 +19667,24 @@ namespace KeycloakRestClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GroupRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<UserRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -19279,7 +19711,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsGET2Async(string role_name, string realm, string client_uuid)
         {
@@ -19292,7 +19723,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsGET2Async(string role_name, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -19358,6 +19788,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -19382,7 +19824,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsPUT2Async(string role_name, ManagementPermissionReference body, string realm, string client_uuid)
         {
@@ -19395,7 +19836,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsPUT2Async(string role_name, ManagementPermissionReference body, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -19465,6 +19905,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -19493,7 +19945,6 @@ namespace KeycloakRestClient
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid)
         {
@@ -19510,7 +19961,6 @@ namespace KeycloakRestClient
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
         /// <param name="client_uuid">id of client (not client-id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAllAsync(string role_name, bool? briefRepresentation, int? first, int? max, string realm, string client_uuid, System.Threading.CancellationToken cancellationToken)
         {
@@ -19588,6 +20038,18 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -21740,6 +22202,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -21760,7 +22228,7 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Get realm default client scopes.  Only name and ids are returned.
+        /// Get realm default client scopes. Only name and ids are returned.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
@@ -21772,7 +22240,7 @@ namespace KeycloakRestClient
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get realm default client scopes.  Only name and ids are returned.
+        /// Get realm default client scopes. Only name and ids are returned.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
@@ -21829,6 +22297,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -21915,6 +22389,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -21996,6 +22482,18 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -22089,6 +22587,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -22171,6 +22675,18 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -22256,6 +22772,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -22276,7 +22804,7 @@ namespace KeycloakRestClient
         }
 
         /// <summary>
-        /// Get realm optional client scopes.  Only name and ids are returned.
+        /// Get realm optional client scopes. Only name and ids are returned.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
@@ -22288,7 +22816,7 @@ namespace KeycloakRestClient
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get realm optional client scopes.  Only name and ids are returned.
+        /// Get realm optional client scopes. Only name and ids are returned.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
@@ -22345,6 +22873,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -22431,6 +22965,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -22514,6 +23060,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -22537,8 +23095,9 @@ namespace KeycloakRestClient
         /// Get events Returns all events, or filters them based on URL query parameters listed here
         /// </summary>
         /// <param name="client">App or oauth client name</param>
-        /// <param name="dateFrom">From date</param>
-        /// <param name="dateTo">To date</param>
+        /// <param name="dateFrom">From (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="dateTo">To (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="direction">The direction to sort events by (asc or desc)</param>
         /// <param name="first">Paging offset</param>
         /// <param name="ipAddress">IP Address</param>
         /// <param name="max">Maximum results size (defaults to 100)</param>
@@ -22547,9 +23106,9 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventRepresentation>> EventsAllAsync(string client, string dateFrom, string dateTo, int? first, string ipAddress, int? max, System.Collections.Generic.IEnumerable<string> type, string user, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventRepresentation>> EventsAllAsync(string client, string dateFrom, string dateTo, string direction, int? first, string ipAddress, int? max, System.Collections.Generic.IEnumerable<string> type, string user, string realm)
         {
-            return EventsAllAsync(client, dateFrom, dateTo, first, ipAddress, max, type, user, realm, System.Threading.CancellationToken.None);
+            return EventsAllAsync(client, dateFrom, dateTo, direction, first, ipAddress, max, type, user, realm, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -22557,8 +23116,9 @@ namespace KeycloakRestClient
         /// Get events Returns all events, or filters them based on URL query parameters listed here
         /// </summary>
         /// <param name="client">App or oauth client name</param>
-        /// <param name="dateFrom">From date</param>
-        /// <param name="dateTo">To date</param>
+        /// <param name="dateFrom">From (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="dateTo">To (inclusive) date (yyyy-MM-dd) or time in Epoch timestamp millis (number of milliseconds since January 1, 1970, 00:00:00 GMT)</param>
+        /// <param name="direction">The direction to sort events by (asc or desc)</param>
         /// <param name="first">Paging offset</param>
         /// <param name="ipAddress">IP Address</param>
         /// <param name="max">Maximum results size (defaults to 100)</param>
@@ -22567,7 +23127,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventRepresentation>> EventsAllAsync(string client, string dateFrom, string dateTo, int? first, string ipAddress, int? max, System.Collections.Generic.IEnumerable<string> type, string user, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<EventRepresentation>> EventsAllAsync(string client, string dateFrom, string dateTo, string direction, int? first, string ipAddress, int? max, System.Collections.Generic.IEnumerable<string> type, string user, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -22599,6 +23159,10 @@ namespace KeycloakRestClient
                     if (dateTo != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("dateTo")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(dateTo, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (direction != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("direction")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(direction, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (first != null)
                     {
@@ -22659,6 +23223,18 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -22744,6 +23320,12 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -22837,6 +23419,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -22926,6 +23514,12 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -23013,6 +23607,18 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -23162,7 +23768,7 @@ namespace KeycloakRestClient
         /// This will update the group and set the parent if it exists. Create it and set the parent if the group doesn’t exist.
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task GroupsPOSTAsync(GroupRepresentation body, string realm)
         {
@@ -23177,7 +23783,7 @@ namespace KeycloakRestClient
         /// This will update the group and set the parent if it exists. Create it and set the parent if the group doesn’t exist.
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task GroupsPOSTAsync(GroupRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -23226,7 +23832,12 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ == 204)
                         {
                             return;
                         }
@@ -24160,7 +24771,6 @@ namespace KeycloakRestClient
         /// Get role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<MappingsRepresentation> RoleMappingsAsync(string realm, string group_id)
         {
@@ -24172,7 +24782,6 @@ namespace KeycloakRestClient
         /// Get role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<MappingsRepresentation> RoleMappingsAsync(string realm, string group_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -24231,6 +24840,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -24772,7 +25387,6 @@ namespace KeycloakRestClient
         /// Get realm-level role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll5Async(string realm, string group_id)
         {
@@ -24784,7 +25398,6 @@ namespace KeycloakRestClient
         /// Get realm-level role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll5Async(string realm, string group_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -24843,6 +25456,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -24939,6 +25558,30 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -25033,6 +25676,30 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -25056,7 +25723,6 @@ namespace KeycloakRestClient
         /// Get realm-level roles that can be mapped
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available8Async(string realm, string group_id)
         {
@@ -25068,7 +25734,6 @@ namespace KeycloakRestClient
         /// Get realm-level roles that can be mapped
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available8Async(string realm, string group_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -25129,6 +25794,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -25153,7 +25824,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite8Async(bool? briefRepresentation, string realm, string group_id)
         {
@@ -25166,7 +25836,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite8Async(bool? briefRepresentation, string realm, string group_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -25231,6 +25900,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -27062,6 +27737,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -27157,6 +27838,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -27250,6 +27937,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -27331,6 +28030,18 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -27424,6 +28135,18 @@ namespace KeycloakRestClient
                             return result_;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -27515,6 +28238,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -27601,6 +28336,18 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -27701,6 +28448,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -27723,14 +28476,13 @@ namespace KeycloakRestClient
         /// <summary>
         /// Returns a paginated list of organizations filtered according to the specified parameters
         /// </summary>
-        /// <param name="briefRepresentation">if true, return the full representation. Otherwise, only the basic fields are returned.</param>
+        /// <param name="briefRepresentation">if false, return the full representation. Otherwise, only the basic fields are returned.</param>
         /// <param name="exact">Boolean which defines whether the param 'search' must match exactly or not</param>
         /// <param name="first">The position of the first result to be processed (pagination offset)</param>
         /// <param name="max">The maximum number of results to be returned - defaults to 10</param>
         /// <param name="q">A query to search for custom attributes, in the format 'key1:value2 key2:value2'</param>
         /// <param name="search">A String representing either an organization name or domain</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAllAsync(bool? briefRepresentation, bool? exact, int? first, int? max, string q, string search, string realm)
         {
@@ -27741,14 +28493,13 @@ namespace KeycloakRestClient
         /// <summary>
         /// Returns a paginated list of organizations filtered according to the specified parameters
         /// </summary>
-        /// <param name="briefRepresentation">if true, return the full representation. Otherwise, only the basic fields are returned.</param>
+        /// <param name="briefRepresentation">if false, return the full representation. Otherwise, only the basic fields are returned.</param>
         /// <param name="exact">Boolean which defines whether the param 'search' must match exactly or not</param>
         /// <param name="first">The position of the first result to be processed (pagination offset)</param>
         /// <param name="max">The maximum number of results to be returned - defaults to 10</param>
         /// <param name="q">A query to search for custom attributes, in the format 'key1:value2 key2:value2'</param>
         /// <param name="search">A String representing either an organization name or domain</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAllAsync(bool? briefRepresentation, bool? exact, int? first, int? max, string q, string search, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -27830,6 +28581,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -27853,7 +28616,7 @@ namespace KeycloakRestClient
         /// Creates a new organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task OrganizationsPOSTAsync(OrganizationRepresentation body, string realm)
         {
@@ -27865,7 +28628,7 @@ namespace KeycloakRestClient
         /// Creates a new organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task OrganizationsPOSTAsync(OrganizationRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -27914,9 +28677,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -27942,7 +28717,6 @@ namespace KeycloakRestClient
         /// Returns the organizations associated with the user that has the specified id
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string member_id, string realm)
         {
@@ -27954,7 +28728,6 @@ namespace KeycloakRestClient
         /// Returns the organizations associated with the user that has the specified id
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll2Async(string member_id, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -28015,6 +28788,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -28038,7 +28817,6 @@ namespace KeycloakRestClient
         /// Returns the organization representation
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string org_id)
         {
@@ -28050,7 +28828,6 @@ namespace KeycloakRestClient
         /// Returns the organization representation
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<OrganizationRepresentation> OrganizationsGETAsync(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28133,7 +28910,7 @@ namespace KeycloakRestClient
         /// Updates the organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string org_id)
         {
@@ -28145,7 +28922,7 @@ namespace KeycloakRestClient
         /// Updates the organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task OrganizationsPUTAsync(OrganizationRepresentation body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28198,9 +28975,15 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -28226,7 +29009,7 @@ namespace KeycloakRestClient
         /// Deletes the organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string org_id)
         {
@@ -28238,7 +29021,7 @@ namespace KeycloakRestClient
         /// Deletes the organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task OrganizationsDELETEAsync(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28287,9 +29070,15 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -28315,7 +29104,6 @@ namespace KeycloakRestClient
         /// Returns all identity providers associated with the organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string org_id)
         {
@@ -28327,7 +29115,6 @@ namespace KeycloakRestClient
         /// Returns all identity providers associated with the organization
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<IdentityProviderRepresentation>> IdentityProvidersAllAsync(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28413,8 +29200,9 @@ namespace KeycloakRestClient
         /// <remarks>
         /// Adds, or associates, an existing identity provider with the organization. If no identity provider is found, or if it is already associated with the organization, an error response is returned
         /// </remarks>
+        /// <param name="body">Payload should contain only id or alias of the identity provider to be associated with the organization (id or alias with or without quotes). Surrounding whitespace characters will be trimmed.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string org_id)
         {
@@ -28428,8 +29216,9 @@ namespace KeycloakRestClient
         /// <remarks>
         /// Adds, or associates, an existing identity provider with the organization. If no identity provider is found, or if it is already associated with the organization, an error response is returned
         /// </remarks>
+        /// <param name="body">Payload should contain only id or alias of the identity provider to be associated with the organization (id or alias with or without quotes). Surrounding whitespace characters will be trimmed.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task IdentityProvidersPOSTAsync(string body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28438,6 +29227,9 @@ namespace KeycloakRestClient
 
             if (org_id == null)
                 throw new System.ArgumentNullException("org_id");
+
+            if (body == null)
+                throw new System.ArgumentNullException("body");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28483,9 +29275,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -28514,7 +29324,6 @@ namespace KeycloakRestClient
         /// Searches for an identity provider with the given alias. If one is found and is associated with the organization, it is returned. Otherwise, an error response with status NOT_FOUND is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string org_id)
         {
@@ -28529,7 +29338,6 @@ namespace KeycloakRestClient
         /// Searches for an identity provider with the given alias. If one is found and is associated with the organization, it is returned. Otherwise, an error response with status NOT_FOUND is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<IdentityProviderRepresentation> IdentityProvidersGETAsync(string alias, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28594,6 +29402,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -28620,7 +29434,7 @@ namespace KeycloakRestClient
         /// Breaks the association between the identity provider and the organization. The provider itself is not deleted. If no provider is found, or if it is not currently associated with the org, an error response is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string org_id)
         {
@@ -28635,7 +29449,7 @@ namespace KeycloakRestClient
         /// Breaks the association between the identity provider and the organization. The provider itself is not deleted. If no provider is found, or if it is not currently associated with the org, an error response is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task IdentityProvidersDELETEAsync(string alias, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28689,9 +29503,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -28722,7 +29548,6 @@ namespace KeycloakRestClient
         /// <param name="membershipType">The membership type</param>
         /// <param name="search">A String representing either a member's username, e-mail, first name, or last name.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string org_id)
         {
@@ -28739,7 +29564,6 @@ namespace KeycloakRestClient
         /// <param name="membershipType">The membership type</param>
         /// <param name="search">A String representing either a member's username, e-mail, first name, or last name.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MemberRepresentation>> MembersAll2Async(bool? exact, int? first, int? max, string membershipType, string search, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28847,8 +29671,9 @@ namespace KeycloakRestClient
         /// <remarks>
         /// Adds, or associates, an existing user with the organization. If no user is found, or if it is already associated with the organization, an error response is returned
         /// </remarks>
+        /// <param name="body">Payload should contain only id of the user to be added to the organization (UUID with or without quotes). Surrounding whitespace characters will be trimmed.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string org_id)
         {
@@ -28862,8 +29687,9 @@ namespace KeycloakRestClient
         /// <remarks>
         /// Adds, or associates, an existing user with the organization. If no user is found, or if it is already associated with the organization, an error response is returned
         /// </remarks>
+        /// <param name="body">Payload should contain only id of the user to be added to the organization (UUID with or without quotes). Surrounding whitespace characters will be trimmed.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task MembersPOSTAsync(string body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -28872,6 +29698,9 @@ namespace KeycloakRestClient
 
             if (org_id == null)
                 throw new System.ArgumentNullException("org_id");
+
+            if (body == null)
+                throw new System.ArgumentNullException("body");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -28917,9 +29746,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -28945,7 +29786,6 @@ namespace KeycloakRestClient
         /// Returns number of members in the organization.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<long> Count2Async(string realm, string org_id)
         {
@@ -28957,7 +29797,6 @@ namespace KeycloakRestClient
         /// Returns number of members in the organization.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<long> Count2Async(string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -29041,7 +29880,7 @@ namespace KeycloakRestClient
         /// Invites an existing user to the organization, using the specified user id
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string org_id)
         {
@@ -29053,7 +29892,7 @@ namespace KeycloakRestClient
         /// Invites an existing user to the organization, using the specified user id
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task InviteExistingUserAsync(Body body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -29108,9 +29947,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -29139,7 +29990,7 @@ namespace KeycloakRestClient
         /// If the user with the given e-mail address exists, it sends an invitation link, otherwise it sends a registration link.
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string org_id)
         {
@@ -29154,7 +30005,7 @@ namespace KeycloakRestClient
         /// If the user with the given e-mail address exists, it sends an invitation link, otherwise it sends a registration link.
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task InviteUserAsync(Body2 body, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -29209,9 +30060,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -29240,7 +30109,6 @@ namespace KeycloakRestClient
         /// Searches for auser with the given id. If one is found, and is currently a member of the organization, returns it. Otherwise,an error response with status NOT_FOUND is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string member_id, string realm, string org_id)
         {
@@ -29255,7 +30123,6 @@ namespace KeycloakRestClient
         /// Searches for auser with the given id. If one is found, and is currently a member of the organization, returns it. Otherwise,an error response with status NOT_FOUND is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<MemberRepresentation> MembersGETAsync(string member_id, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -29320,6 +30187,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -29346,7 +30219,7 @@ namespace KeycloakRestClient
         /// Breaks the association between the user and organization. The user itself is deleted in case the membership is managed, otherwise the user is not deleted. If no user is found, or if they are not a member of the organization, an error response is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task MembersDELETEAsync(string member_id, string realm, string org_id)
         {
@@ -29361,7 +30234,7 @@ namespace KeycloakRestClient
         /// Breaks the association between the user and organization. The user itself is deleted in case the membership is managed, otherwise the user is not deleted. If no user is found, or if they are not a member of the organization, an error response is returned
         /// </remarks>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task MembersDELETEAsync(string member_id, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -29415,9 +30288,15 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -29443,7 +30322,6 @@ namespace KeycloakRestClient
         /// Returns the organizations associated with the user that has the specified id
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string member_id, string realm, string org_id)
         {
@@ -29455,7 +30333,6 @@ namespace KeycloakRestClient
         /// Returns the organizations associated with the user that has the specified id
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationRepresentation>> OrganizationsAll3Async(string member_id, string realm, string org_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -29521,6 +30398,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -29546,7 +30429,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task PartialExportAsync(bool? exportClients, bool? exportGroupsAndRoles, string realm)
+        public virtual System.Threading.Tasks.Task<RealmRepresentation> PartialExportAsync(bool? exportClients, bool? exportGroupsAndRoles, string realm)
         {
             return PartialExportAsync(exportClients, exportGroupsAndRoles, realm, System.Threading.CancellationToken.None);
         }
@@ -29558,7 +30441,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task PartialExportAsync(bool? exportClients, bool? exportGroupsAndRoles, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<RealmRepresentation> PartialExportAsync(bool? exportClients, bool? exportGroupsAndRoles, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -29571,6 +30454,7 @@ namespace KeycloakRestClient
                 {
                     request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -29614,7 +30498,18 @@ namespace KeycloakRestClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<RealmRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -29642,7 +30537,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task PartialImportAsync(System.IO.Stream body, string realm)
+        public virtual System.Threading.Tasks.Task<object> PartialImportAsync(System.IO.Stream body, string realm)
         {
             return PartialImportAsync(body, realm, System.Threading.CancellationToken.None);
         }
@@ -29654,7 +30549,7 @@ namespace KeycloakRestClient
         /// <param name="realm">realm name (not id!)</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task PartialImportAsync(System.IO.Stream body, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<object> PartialImportAsync(System.IO.Stream body, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (realm == null)
                 throw new System.ArgumentNullException("realm");
@@ -29669,6 +30564,7 @@ namespace KeycloakRestClient
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
@@ -29702,7 +30598,24 @@ namespace KeycloakRestClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -29797,6 +30710,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -29820,7 +30739,6 @@ namespace KeycloakRestClient
         /// Get all roles for the realm or client
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RolesAll2Async(bool? briefRepresentation, int? first, int? max, string search, string realm)
         {
@@ -29832,7 +30750,6 @@ namespace KeycloakRestClient
         /// Get all roles for the realm or client
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RolesAll2Async(bool? briefRepresentation, int? first, int? max, string search, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -29906,6 +30823,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -29929,7 +30852,7 @@ namespace KeycloakRestClient
         /// Create a new role for the realm or client
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RolesPOST2Async(RoleRepresentation body, string realm)
         {
@@ -29941,7 +30864,7 @@ namespace KeycloakRestClient
         /// Create a new role for the realm or client
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RolesPOST2Async(RoleRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -29990,9 +30913,33 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -30019,7 +30966,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_id">id of role</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<RoleRepresentation> RolesByIdGETAsync(string role_id, string realm)
         {
@@ -30032,7 +30978,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_id">id of role</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<RoleRepresentation> RolesByIdGETAsync(string role_id, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -30090,6 +31035,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -30187,6 +31138,12 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -30278,6 +31235,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -30301,7 +31270,6 @@ namespace KeycloakRestClient
         /// Get role's children Returns a set of role's children provided the role is a composite.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> CompositesAll2Async(string role_id, int? first, int? max, string search, string realm)
         {
@@ -30313,7 +31281,6 @@ namespace KeycloakRestClient
         /// Get role's children Returns a set of role's children provided the role is a composite.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> CompositesAll2Async(string role_id, int? first, int? max, string search, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -30386,6 +31353,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -30480,6 +31453,12 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -30578,6 +31557,12 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -30601,7 +31586,6 @@ namespace KeycloakRestClient
         /// Get client-level roles for the client that are in the role's composite
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll7Async(string clientUuid, string role_id, string realm)
         {
@@ -30613,7 +31597,6 @@ namespace KeycloakRestClient
         /// Get client-level roles for the client that are in the role's composite
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll7Async(string clientUuid, string role_id, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -30678,6 +31661,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -30701,7 +31696,6 @@ namespace KeycloakRestClient
         /// Get realm-level roles that are in the role's composite
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll6Async(string role_id, string realm)
         {
@@ -30713,7 +31707,6 @@ namespace KeycloakRestClient
         /// Get realm-level roles that are in the role's composite
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll6Async(string role_id, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -30774,6 +31767,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -30797,7 +31796,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsGET5Async(string role_id, string realm)
         {
@@ -30809,7 +31807,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsGET5Async(string role_id, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -30870,6 +31867,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -30893,7 +31896,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsPUT5Async(string role_id, ManagementPermissionReference body, string realm)
         {
@@ -30905,7 +31907,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsPUT5Async(string role_id, ManagementPermissionReference body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -30970,6 +31971,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -30994,7 +32001,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<RoleRepresentation> RolesGET2Async(string role_name, string realm)
         {
@@ -31007,7 +32013,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<RoleRepresentation> RolesGET2Async(string role_name, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -31067,6 +32072,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -31091,7 +32108,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RolesPUT2Async(string role_name, RoleRepresentation body, string realm)
         {
@@ -31104,7 +32121,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RolesPUT2Async(string role_name, RoleRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -31157,9 +32174,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -31253,6 +32288,24 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -31277,7 +32330,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> CompositesAll3Async(string role_name, string realm)
         {
@@ -31290,7 +32342,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> CompositesAll3Async(string role_name, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -31349,6 +32400,18 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -31447,6 +32510,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -31543,6 +32618,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -31567,7 +32654,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll8Async(string client_uuid, string role_name, string realm)
         {
@@ -31580,7 +32666,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> ClientsAll8Async(string client_uuid, string role_name, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -31645,6 +32730,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -31669,7 +32766,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll7Async(string role_name, string realm)
         {
@@ -31682,7 +32778,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="role_name">role's name (not id!)</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll7Async(string role_name, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -31743,6 +32838,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -31770,9 +32877,8 @@ namespace KeycloakRestClient
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> GroupsAll3Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> GroupsAll3Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm)
         {
             return GroupsAll3Async(role_name, briefRepresentation, first, max, realm, System.Threading.CancellationToken.None);
         }
@@ -31786,9 +32892,8 @@ namespace KeycloakRestClient
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GroupRepresentation>> GroupsAll3Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> GroupsAll3Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm, System.Threading.CancellationToken cancellationToken)
         {
             if (role_name == null)
                 throw new System.ArgumentNullException("role_name");
@@ -31853,12 +32958,24 @@ namespace KeycloakRestClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GroupRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<UserRepresentation>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -31884,7 +33001,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsGET6Async(string role_name, string realm)
         {
@@ -31896,7 +33012,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsGET6Async(string role_name, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -31957,6 +33072,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -31980,7 +33107,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsPUT6Async(string role_name, ManagementPermissionReference body, string realm)
         {
@@ -31992,7 +33118,6 @@ namespace KeycloakRestClient
         /// Return object stating whether role Authorization permissions have been initialized or not and a reference
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ManagementPermissionReference> PermissionsPUT6Async(string role_name, ManagementPermissionReference body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -32057,6 +33182,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -32084,7 +33221,6 @@ namespace KeycloakRestClient
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAll2Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm)
         {
@@ -32100,7 +33236,6 @@ namespace KeycloakRestClient
         /// <param name="first">first result to return. Ignored if negative or {@code null}.</param>
         /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}.</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRepresentation>> UsersAll2Async(string role_name, bool? briefRepresentation, int? first, int? max, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -32173,6 +33308,18 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -32276,6 +33423,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -32299,7 +33458,7 @@ namespace KeycloakRestClient
         /// Test SMTP connection with current logged in user
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
         public virtual System.Threading.Tasks.Task TestSMTPConnectionAsync(System.Collections.Generic.IDictionary<string, string> body, string realm)
@@ -32312,7 +33471,7 @@ namespace KeycloakRestClient
         /// Test SMTP connection with current logged in user
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
         public virtual async System.Threading.Tasks.Task TestSMTPConnectionAsync(System.Collections.Generic.IDictionary<string, string> body, string realm, System.Threading.CancellationToken cancellationToken)
@@ -32362,9 +33521,15 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -32544,6 +33709,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -32567,7 +33738,7 @@ namespace KeycloakRestClient
         /// Create a new user Username must be unique.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task UsersPOSTAsync(UserRepresentation body, string realm)
         {
@@ -32579,7 +33750,7 @@ namespace KeycloakRestClient
         /// Create a new user Username must be unique.
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task UsersPOSTAsync(UserRepresentation body, string realm, System.Threading.CancellationToken cancellationToken)
         {
@@ -32628,9 +33799,33 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 201)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -32716,6 +33911,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -32805,6 +34006,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -32950,6 +34157,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -33039,6 +34252,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -33136,6 +34355,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -33225,6 +34450,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -33330,6 +34561,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -33353,7 +34590,7 @@ namespace KeycloakRestClient
         /// Update the user
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task UsersPUTAsync(UserRepresentation body, string realm, string user_id)
         {
@@ -33365,7 +34602,7 @@ namespace KeycloakRestClient
         /// Update the user
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task UsersPUTAsync(UserRepresentation body, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -33418,9 +34655,33 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -33446,7 +34707,7 @@ namespace KeycloakRestClient
         /// Delete the user
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task UsersDELETE3Async(string realm, string user_id)
         {
@@ -33458,7 +34719,7 @@ namespace KeycloakRestClient
         /// Delete the user
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task UsersDELETE3Async(string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -33507,9 +34768,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -33614,6 +34887,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -33708,6 +34987,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -33806,6 +35091,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -33894,6 +35191,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -33988,6 +35291,18 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -34094,6 +35409,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -34190,6 +35517,18 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -34290,6 +35629,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -34384,6 +35735,12 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -34413,7 +35770,7 @@ namespace KeycloakRestClient
         /// <param name="lifespan">Number of seconds after which the generated token expires</param>
         /// <param name="redirect_uri">Redirect uri</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task ExecuteActionsEmailAsync(string client_id, int? lifespan, string redirect_uri, System.Collections.Generic.IEnumerable<string> body, string realm, string user_id)
         {
@@ -34431,7 +35788,7 @@ namespace KeycloakRestClient
         /// <param name="lifespan">Number of seconds after which the generated token expires</param>
         /// <param name="redirect_uri">Redirect uri</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task ExecuteActionsEmailAsync(string client_id, int? lifespan, string redirect_uri, System.Collections.Generic.IEnumerable<string> body, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -34499,9 +35856,33 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -34600,6 +35981,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -34624,7 +36011,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="provider">Social login provider id</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task FederatedIdentityPOSTAsync(string provider, string realm, string user_id)
         {
@@ -34637,7 +36024,7 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="provider">Social login provider id</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task FederatedIdentityPOSTAsync(string provider, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -34692,9 +36079,21 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 409)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Conflict", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -34791,6 +36190,18 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -34901,6 +36312,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -34997,6 +36414,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -35086,6 +36509,18 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -35172,6 +36607,30 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -35271,6 +36730,22 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ErrorRepresentation>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ErrorRepresentation>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -35360,6 +36835,12 @@ namespace KeycloakRestClient
                         if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -35462,6 +36943,18 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -35556,6 +37049,24 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -35584,7 +37095,7 @@ namespace KeycloakRestClient
         /// <param name="client_id">client id</param>
         /// <param name="redirect_uri">redirect uri</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
         public virtual System.Threading.Tasks.Task ResetPasswordEmailAsync(string client_id, string redirect_uri, string realm, string user_id)
@@ -35602,7 +37113,7 @@ namespace KeycloakRestClient
         /// <param name="client_id">client id</param>
         /// <param name="redirect_uri">redirect uri</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
         public virtual async System.Threading.Tasks.Task ResetPasswordEmailAsync(string client_id, string redirect_uri, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
@@ -35664,9 +37175,33 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -35692,7 +37227,6 @@ namespace KeycloakRestClient
         /// Get role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<MappingsRepresentation> RoleMappings2Async(string realm, string user_id)
         {
@@ -35704,7 +37238,6 @@ namespace KeycloakRestClient
         /// Get role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<MappingsRepresentation> RoleMappings2Async(string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -35763,6 +37296,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -36304,7 +37843,6 @@ namespace KeycloakRestClient
         /// Get realm-level role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll8Async(string realm, string user_id)
         {
@@ -36316,7 +37854,6 @@ namespace KeycloakRestClient
         /// Get realm-level role mappings
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> RealmAll8Async(string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -36375,6 +37912,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -36471,6 +38014,30 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -36565,6 +38132,30 @@ namespace KeycloakRestClient
                             return;
                         }
                         else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Not Found", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -36588,7 +38179,6 @@ namespace KeycloakRestClient
         /// Get realm-level roles that can be mapped
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available10Async(string realm, string user_id)
         {
@@ -36600,7 +38190,6 @@ namespace KeycloakRestClient
         /// Get realm-level roles that can be mapped
         /// </summary>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Available10Async(string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -36661,6 +38250,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -36685,7 +38280,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite10Async(bool? briefRepresentation, string realm, string user_id)
         {
@@ -36698,7 +38292,6 @@ namespace KeycloakRestClient
         /// </summary>
         /// <param name="briefRepresentation">if false, return roles with their attributes</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RoleRepresentation>> Composite10Async(bool? briefRepresentation, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -36765,6 +38358,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -36794,7 +38393,7 @@ namespace KeycloakRestClient
         /// <param name="lifespan">Number of seconds after which the generated token expires</param>
         /// <param name="redirect_uri">Redirect uri</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task SendVerifyEmailAsync(string client_id, int? lifespan, string redirect_uri, string realm, string user_id)
         {
@@ -36812,7 +38411,7 @@ namespace KeycloakRestClient
         /// <param name="lifespan">Number of seconds after which the generated token expires</param>
         /// <param name="redirect_uri">Redirect uri</param>
         /// <param name="realm">realm name (not id!)</param>
-        /// <returns>OK</returns>
+        /// <returns>No Content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task SendVerifyEmailAsync(string client_id, int? lifespan, string redirect_uri, string realm, string user_id, System.Threading.CancellationToken cancellationToken)
         {
@@ -36877,9 +38476,27 @@ namespace KeycloakRestClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 204)
                         {
                             return;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Bad Request", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
+                        if (status_ == 500)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Internal Server Error", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -36978,6 +38595,12 @@ namespace KeycloakRestClient
                             return objectResponse_.Object;
                         }
                         else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
+                        }
+                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
@@ -37066,6 +38689,12 @@ namespace KeycloakRestClient
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 403)
+                        {
+                            string responseText_ = ( response_.Content == null ) ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("Forbidden", status_, responseText_, headers_, null);
                         }
                         else
                         {
@@ -37453,6 +39082,9 @@ namespace KeycloakRestClient
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class AdminEventRepresentation
     {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("time")]
         public long Time { get; set; }
@@ -38786,6 +40418,9 @@ namespace KeycloakRestClient
         [System.Obsolete]
         public Config Config { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("federationLink")]
+        public string FederationLink { get; set; }
+
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
         [System.Text.Json.Serialization.JsonExtensionData]
@@ -38840,6 +40475,33 @@ namespace KeycloakRestClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ErrorRepresentation
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("field")]
+        public string Field { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("errorMessage")]
+        public string ErrorMessage { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("params")]
+        public System.Collections.Generic.ICollection<object> Params { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("errors")]
+        public System.Collections.Generic.ICollection<ErrorRepresentation> Errors { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class EvaluationResultRepresentation
     {
 
@@ -38859,6 +40521,9 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("allowedScopes")]
         public System.Collections.Generic.ICollection<ScopeRepresentation> AllowedScopes { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("deniedScopes")]
+        public System.Collections.Generic.ICollection<ScopeRepresentation> DeniedScopes { get; set; }
+
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
         [System.Text.Json.Serialization.JsonExtensionData]
@@ -38873,6 +40538,9 @@ namespace KeycloakRestClient
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class EventRepresentation
     {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("time")]
         public long Time { get; set; }
@@ -40022,6 +41690,9 @@ namespace KeycloakRestClient
         [System.Text.Json.Serialization.JsonPropertyName("resources")]
         public System.Collections.Generic.ICollection<ResourceRepresentation> Resources { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("resourceType")]
+        public string ResourceType { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("clientId")]
         public string ClientId { get; set; }
 
@@ -40172,6 +41843,9 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("scopes")]
         public System.Collections.Generic.ICollection<string> Scopes { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("resourceType")]
+        public string ResourceType { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -41025,6 +42699,12 @@ namespace KeycloakRestClient
 
         [System.Text.Json.Serialization.JsonPropertyName("scopes")]
         public System.Collections.Generic.ICollection<string> Scopes { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("scopeAliases")]
+        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> ScopeAliases { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupType")]
+        public string GroupType { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
